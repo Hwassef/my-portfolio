@@ -1,8 +1,8 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { motion, useScroll, useSpring, useInView, useAnimation, AnimatePresence } from 'framer-motion'
-import { Moon, Sun, Github, Linkedin, Mail, ChevronDown, Smartphone, Code, Zap, Layers, Globe, Apple, PlayCircle, Briefcase, GraduationCap, Languages, Phone } from 'lucide-react'
+import { motion, useScroll, useSpring, useInView, useAnimation } from 'framer-motion'
+import { Moon, Sun, Github, Linkedin, Mail, ChevronDown, Smartphone, Code, Zap, Layers, Globe, Apple, PlayCircle} from 'lucide-react'
 import confetti from 'canvas-confetti'
 import Image from 'next/image'
 
@@ -279,7 +279,7 @@ export default function Component() {
                 >
                   <div className="relative w-64 h-64">
                     <Image
-                      src="/placeholder.svg"
+                      src="/dash.jpg"
                       alt="Wassef Hassine"
                       width={300}
                       height={300}
@@ -407,13 +407,6 @@ export default function Component() {
             </div>
           </section>
 
-          <section id="resume" className="py-20 bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-              <h2 className="text-3xl font-bold mb-12 text-center">My Resume</h2>
-              <InteractiveResume resumeData={resumeData} />
-            </div>
-          </section>
-
           <section id="contact" className="py-20 bg-white dark:bg-gray-800 transition-colors duration-300">
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
               <h2 className="text-3xl font-bold mb-8 text-center">Get in Touch</h2>
@@ -464,130 +457,3 @@ export default function Component() {
   )
 }
 
-interface InteractiveResumeProps {
-  resumeData: ResumeData;
-}
-
-function InteractiveResume({ resumeData }: InteractiveResumeProps) {
-  const [activeTab, setActiveTab] = useState('experience')
-
-  const tabs = [
-    { id: 'experience', label: 'Expérience', icon: Briefcase },
-    { id: 'skills', label: 'Compétences', icon: Code },
-    { id: 'education', label: 'Éducation', icon: GraduationCap },
-    { id: 'languages', label: 'Langues', icon: Languages },
-  ]
-
-  return (
-    <div className="bg-white dark:bg-gray-800 shadow-xl rounded-lg overflow-hidden max-w-4xl mx-auto">
-      <div className="p-8 bg-gradient-to-r from-indigo-500 to-purple-600 text-white">
-        <h2 className="text-3xl font-bold mb-2">{resumeData.personal.name}</h2>
-        <p className="text-xl mb-4">Développeur Flutter</p>
-        <div className="flex flex-wrap gap-4">
-          <a href={`tel:${resumeData.personal.phone}`} className="flex items-center">
-            <Phone className="w-5 h-5 mr-2" />
-            {resumeData.personal.phone}
-          </a>
-          <a href={`mailto:${resumeData.personal.email}`} className="flex items-center">
-            <Mail className="w-5 h-5 mr-2" />
-            {resumeData.personal.email}
-          </a>
-          <a href={resumeData.personal.linkedin} target="_blank" rel="noopener noreferrer" className="flex items-center">
-            <Linkedin className="w-5 h-5 mr-2" />
-            LinkedIn
-          </a>
-          <a href={resumeData.personal.github} target="_blank" rel="noopener noreferrer" className="flex items-center">
-            <Github className="w-5 h-5 mr-2" />
-            GitHub
-          </a>
-        </div>
-      </div>
-      <div className="p-6">
-        <div className="flex mb-6 bg-gray-100 dark:bg-gray-700 rounded-lg p-1">
-          {tabs.map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={`flex-1 flex items-center justify-center py-2 px-4 rounded-md transition-colors duration-200 ${
-                activeTab === tab.id
-                  ? 'bg-white dark:bg-gray-600 text-indigo-600 dark:text-indigo-400 shadow-md'
-                  : 'text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-              }`}
-            >
-              <tab.icon className="w-5 h-5 mr-2" />
-              {tab.label}
-            </button>
-          ))}
-        </div>
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeTab}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
-          >
-            {activeTab === 'experience' && (
-              <div>
-                {resumeData.experience.map((job, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                    className="mb-6 last:mb-0"
-                  >
-                    <h3 className="text-xl font-semibold">{job.company}</h3>
-                    <p className="text-gray-600 dark:text-gray-300">{job.position}</p>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">{job.period}</p>
-                    <p className="text-gray-700 dark:text-gray-200">{job.description}</p>
-                  </motion.div>
-                ))}
-              </div>
-            )}
-            {activeTab === 'skills' && (
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                {resumeData.skills.map((skill, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.05 }}
-                    className="bg-gray-100 dark:bg-gray-700 rounded-lg p-3 text-center"
-                  >
-                    {skill}
-                  </motion.div>
-                ))}
-              </div>
-            )}
-            {activeTab === 'education' && (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
-              >
-                <h3 className="text-xl font-semibold">{resumeData.education.degree}</h3>
-                <p className="text-gray-600 dark:text-gray-300">{resumeData.education.major}</p>
-              </motion.div>
-            )}
-            {activeTab === 'languages' && (
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                {resumeData.languages.map((language, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                    className="bg-gray-100 dark:bg-gray-700 rounded-lg p-3 text-center"
-                  >
-                    {language}
-                  </motion.div>
-                ))}
-              </div>
-            )}
-          </motion.div>
-        </AnimatePresence>
-      </div>
-    </div>
-  )
-}
