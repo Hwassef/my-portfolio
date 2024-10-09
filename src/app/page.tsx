@@ -2,9 +2,10 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { motion, useScroll, useSpring, useInView, useAnimation } from 'framer-motion'
-import { Moon, Sun, Github, Linkedin, Mail, ChevronDown, Smartphone, Code, Zap, Layers, Globe, Apple, PlayCircle} from 'lucide-react'
+import { Moon, Sun, Github, Linkedin, Mail, ChevronDown, Smartphone, Code, Zap, Layers, Globe, } from 'lucide-react'
 import confetti from 'canvas-confetti'
 import Image from 'next/image'
+import { SiGoogleplay, SiAppstore  } from 'react-icons/si';
 
 interface Skill {
   name: string;
@@ -17,7 +18,7 @@ interface Project {
   image: string;
   mockup: string;
   appStore: string;
-  playStore: string;
+  playStore?: string;
 }
 
 interface ResumeData {
@@ -82,23 +83,22 @@ export default function Component() {
   const projects: Project[] = [
     {
       title: 'DukhanBank',
-      description: 'Experience seamless banking with the Dukhan Bank Mobile App. Featuring cutting-edge security with two-factor biometric login, this app revolutionizes your financial management. From instant money transfers to bill payments, credit card management to rewards redemption – all at your fingertips, 24/7. The sleek interface ensures a user-friendly experience, making complex banking tasks effortless.',
+      description: 'Bank easily with secure login, instant transfers, bill payments, and more, all 24/7.',
       image: '/ic_app_icon.svg',
       mockup: '/ic_app_icon.svg',
-      appStore: 'https://apps.apple.com/qa/app/dukhan-bank/id1455948108',
-      playStore: 'https://play.google.com/store/apps/details?id=com.dukhanbank.mobile',
+      appStore: 'https://apps.apple.com/us/app/dukhan-mobile/id817391995',
+      playStore: 'https://play.google.com/store/apps/details?id=com.Barwa&hl=en',
     },
     {
       title: 'Digitrame',
-      description: 'Digitrame is the ultimate business companion for artisans, small businesses, and freelancers. This powerhouse app streamlines your entire workflow – from quote creation to invoice management, client relations to inventory tracking. With its intuitive design and offline capabilities, Digitrame ensures you stay on top of your business, anytime, anywhere. Experience real-time insights and effortless supplier management in one beautifully crafted app.',
+      description: 'Manage quotes, invoices, and inventory with ease, designed for freelancers and small businesses.',
       image: '/digitrame.jpg',
       mockup: '/digitrame.jpg',
       appStore: 'https://apps.apple.com/fr/app/digitrame/id1494623897',
-      playStore: 'https://play.google.com/store/apps/details?id=com.digitrame.app',
     },
     {
       title: 'HeadsApp',
-      description: 'HeadsApp revolutionizes communication for healthcare professionals. Designed by doctors for doctors, this secure instant messaging service combines medical expertise with cutting-edge technology. Enjoy seamless collaboration, quick consultations, and efficient patient care coordination. With its intuitive interface and robust security features, HeadsApp is transforming the way medical professionals connect and share critical information.',
+      description: 'Secure messaging for healthcare professionals to streamline consultations and patient care.',
       image: '/headsapp.png',
       mockup: '/headsapp.png',
       appStore: 'https://apps.apple.com/us/app/headsapp/id1568508905',
@@ -106,7 +106,7 @@ export default function Component() {
     },
     {
       title: 'ProximityStore',
-      description: 'Discover a world of local deals with ProximityStore. This innovative app connects you with nearby merchants, offering unbeatable discounts across 25+ categories. Shop in-store or online, support local businesses, and reduce your carbon footprint – all while saving money. With its user-friendly interface and personalized recommendations, ProximityStore makes finding the best local offers as easy as a tap on your screen.',
+      description: 'Find local deals and support nearby businesses with personalized shopping recommendations.',
       image: '/proximitystore.png',
       mockup: '/proximitystore.png',
       appStore: 'https://apps.apple.com/fr/app/proximitystore/id1612459998?l=en',
@@ -114,7 +114,7 @@ export default function Component() {
     },
     {
       title: 'Swipe Color Game',
-      description: 'Challenge your reflexes and color recognition skills with Swipe Color Game. This addictive mobile game tests your speed and accuracy as you swipe in the correct direction based on color cues. Compete against players worldwide and aim for the top 20 global rankings. With its sleek design and increasingly difficult levels, Swipe Color Game offers an engaging experience for casual gamers and competitive players alike.',
+      description: 'Swipe based on color cues and compete globally in this fun, challenging game.',
       image: '/swipe_color.png',
       mockup: '/swipe_color.png',
       appStore: 'https://apps.apple.com/us/app/swipe-color-game/id1522599744',
@@ -122,14 +122,14 @@ export default function Component() {
     },
     {
       title: 'Le Jeu Qui',
-      description: 'Elevate your group gatherings with Le Jeu Qui, the ultimate mobile party game. Embark on a hilarious and educational journey as players progress from CP students to "Brevet" graduates. With a perfect blend of trivia, challenges, and interactive tasks, Le Jeu Qui guarantees laughter and learning in equal measure. Ideal for family game nights, friend hangouts, or as an ice-breaker at social events.',
+      description: 'A fun party game with trivia and challenges, perfect for social gatherings.',
       image: '/le_jeu_qui.png',
       mockup: '/le_jeu_qui.png',
       appStore: 'https://apps.apple.com/us/app/le-jeu-qui/id6448712204',
       playStore: 'https://play.google.com/store/apps/details?id=com.lejeuqui',
     },
   ]
-
+  
   const heroRef = useRef(null)
   const heroInView = useInView(heroRef, { once: true })
 
@@ -362,7 +362,7 @@ export default function Component() {
                         src={project.image} 
                         alt={project.title} 
                         layout="fill"
-                        objectFit="cover"
+                        objectFit="contain"
                         className="transition-transform duration-300 group-hover:scale-110"
                       />
                       <motion.div
@@ -381,7 +381,7 @@ export default function Component() {
                     </div>
                     <div className="p-6">
                       <h3 className="text-2xl font-semibold mb-3 text-indigo-600 dark:text-indigo-400">{project.title}</h3>
-                      <p className="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3">{project.description}</p>
+                      <p className="text-gray-600 dark:text-gray-300 mb-4 line-clamp-4">{project.description}</p>
                       <div className="flex justify-between items-center mt-4">
                         <motion.a
                           href={project.appStore}
@@ -389,16 +389,18 @@ export default function Component() {
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
                         >
-                          <Apple className="w-6 h-6 mr-2" /> App Store
-                        </motion.a>
-                        <motion.a
+                      <SiAppstore className="w-6 h-6 mr-2" /> App Store
+                      </motion.a>
+                      {project.playStore && (
+                      <motion.a
                           href={project.playStore}
                           className="inline-flex items-center text-gray-800 dark:text-gray-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-300"
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
                         >
-                          <PlayCircle className="w-6 h-6 mr-2" /> Play Store
+                          <SiGoogleplay className="w-6 h-6 mr-2" /> Play Store
                         </motion.a>
+                      )}  
                       </div>
                     </div>
                   </motion.div>
