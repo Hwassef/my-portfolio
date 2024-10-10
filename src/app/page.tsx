@@ -1,11 +1,11 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { motion, useScroll, useSpring, useInView, useAnimation } from 'framer-motion'
-import { Moon, Sun, Github, Linkedin, Mail, ChevronDown, Smartphone, Code, Zap, Layers, Globe, } from 'lucide-react'
+import { motion, useScroll, useSpring, useTransform, useInView } from 'framer-motion'
+import { Moon, Sun, Github, Linkedin, Mail, ChevronDown, Smartphone, Code, Zap, Layers, Globe } from 'lucide-react'
 import confetti from 'canvas-confetti'
 import Image from 'next/image'
-import { SiGoogleplay, SiAppstore  } from 'react-icons/si';
+import { SiGoogleplay, SiAppstore } from 'react-icons/si'
 
 interface Skill {
   name: string;
@@ -129,27 +129,6 @@ export default function Component() {
       playStore: 'https://play.google.com/store/apps/details?id=com.lejeuqui',
     },
   ]
-  
-  const heroRef = useRef(null)
-  const heroInView = useInView(heroRef, { once: true })
-
-  const handleConfetti = () => {
-    confetti({
-      particleCount: 100,
-      spread: 70,
-      origin: { y: 0.6 }
-    })
-  }
-
-  const controls = useAnimation()
-
-  useEffect(() => {
-    controls.start(i => ({
-      opacity: 1,
-      y: 0,
-      transition: { delay: i * 0.3 }
-    }))
-  }, [controls])
 
   const resumeData: ResumeData = {
     personal: {
@@ -190,6 +169,28 @@ export default function Component() {
     languages: ['Arabe', 'Anglais', 'Français'],
   }
 
+  const pathLength = useSpring(scrollYProgress, { stiffness: 400, damping: 90 })
+  const drawPath = useTransform(scrollYProgress, [0, 1], [0, 1])
+
+  const heroRef = useRef(null)
+  const aboutRef = useRef(null)
+  const skillsRef = useRef(null)
+  const projectsRef = useRef(null)
+  const contactRef = useRef(null)
+
+  const heroInView = useInView(heroRef, { once: true })
+  const aboutInView = useInView(aboutRef, { once: true })
+  const skillsInView = useInView(skillsRef, { once: true })
+  const projectsInView = useInView(projectsRef, { once: true })
+
+  const handleConfetti = () => {
+    confetti({
+      particleCount: 100,
+      spread: 70,
+      origin: { y: 0.6 }
+    })
+  }
+
   return (
     <div className={darkMode ? 'dark' : ''}>
       <div className="bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-indigo-900 text-gray-800 dark:text-gray-100 min-h-screen transition-colors duration-300">
@@ -201,13 +202,13 @@ export default function Component() {
                 <li><a href="#about" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200">About</a></li>
                 <li><a href="#skills" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200">Skills</a></li>
                 <li><a href="#projects" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200">Projects</a></li>
-                <li><a href="#resume" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200">Resume</a></li>
                 <li><a href="#contact" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200">Contact</a></li>
               </ul>
             </nav>
             <button
               onClick={() => setDarkMode(!darkMode)}
               className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 transition-colors duration-200"
+              aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
             >
               {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
             </button>
@@ -218,7 +219,30 @@ export default function Component() {
           />
         </header>
 
-        <main className="pt-20">
+        <main className="pt-20 relative">
+          <svg
+            className="absolute top-0 left-0 w-full h-full pointer-events-none"
+            viewBox="0 0 100 100"
+            preserveAspectRatio="none"
+          >
+            <motion.path
+              d="M0,0 Q50,50 100,0 V100 H0 Z"
+              fill="none"
+              stroke="url(#gradient)"
+              strokeWidth="0.5"
+              style={{
+                pathLength: drawPath,
+                opacity: pathLength
+              }}
+            />
+            <defs>
+              <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#4F46E5" />
+                <stop offset="100%" stopColor="#9333EA" />
+              </linearGradient>
+            </defs>
+          </svg>
+
           <section id="hero" ref={heroRef} className="relative min-h-screen flex items-center justify-center overflow-hidden">
             <div className="absolute inset-0 z-0">
               <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-indigo-600 opacity-20 dark:opacity-40"></div>
@@ -249,7 +273,7 @@ export default function Component() {
               <motion.a
                 href="#contact"
                 className="bg-indigo-600 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-indigo-700 transition-colors duration-300"
-                whileHover={{ scale: 1.05  }}
+                whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={handleConfetti}
               >
@@ -259,27 +283,27 @@ export default function Component() {
             <motion.div
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 0.8 }}
+              transition={{ delay: 0.5, 
+              duration: 0.8 }}
               className="absolute bottom-10 left-1/2 transform -translate-x-1/2"
             >
               <ChevronDown className="w-12 h-12 text-indigo-600 dark:text-indigo-400 animate-bounce" />
             </motion.div>
           </section>
 
-          <section id="about" className="py-20 bg-white dark:bg-gray-800 transition-colors duration-300">
+          <section id="about" ref={aboutRef} className="py-20 bg-white/80 dark:bg-gray-800/80 backdrop-blur-md transition-colors duration-300">
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-              <h2 className="text-3xl font-bold mb-8 text-center">About Me</h2>
+              <h2 className="text-3xl font-bold mb-8 text-center text-indigo-600 dark:text-indigo-400">About Me</h2>
               <div className="flex flex-col md:flex-row items-center gap-8">
                 <motion.div
                   className="md:w-1/3"
                   initial={{ opacity: 0, x: -50 }}
-                  whileInView={{ opacity: 1, x: 0 }}
+                  animate={aboutInView ? { opacity: 1, x: 0 } : {}}
                   transition={{ duration: 0.5 }}
-                  viewport={{ once: true }}
                 >
                   <div className="relative w-64 h-64">
                     <Image
-                      src="/dash.jpg"
+                      src="/dash.jpg?height=300&width=300"
                       alt="Wassef Hassine"
                       width={300}
                       height={300}
@@ -298,9 +322,8 @@ export default function Component() {
                 <motion.div
                   className="md:w-2/3"
                   initial={{ opacity: 0, x: 50 }}
-                  whileInView={{ opacity: 1, x: 0 }}
+                  animate={aboutInView ? { opacity: 1, x: 0 } : {}}
                   transition={{ duration: 0.5 }}
-                  viewport={{ once: true }}
                 >
                   <p className="text-lg mb-4">
                     Im a passionate Flutter developer with 5 years of experience in creating beautiful,
@@ -316,18 +339,17 @@ export default function Component() {
             </div>
           </section>
 
-          <section id="skills" className="py-20 bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
+          <section id="skills" ref={skillsRef} className="py-20 bg-gray-100/80 dark:bg-gray-900/80 backdrop-blur-md transition-colors duration-300">
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-              <h2 className="text-3xl font-bold mb-12 text-center">Skills</h2>
+              <h2 className="text-3xl font-bold mb-12 text-center text-indigo-600 dark:text-indigo-400">Skills</h2>
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
                 {skills.map((skill, index) => (
                   <motion.div
                     key={index}
                     className="flex flex-col items-center p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
                     initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
+                    animate={skillsInView ? { opacity: 1, y: 0 } : {}}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
-                    viewport={{ once: true }}
                     whileHover={{ scale: 1.05 }}
                   >
                     {skill.icon}
@@ -338,12 +360,12 @@ export default function Component() {
             </div>
           </section>
 
-          <section id="projects" className="py-20 bg-white dark:bg-gray-800 transition-colors duration-300">
+          <section id="projects" ref={projectsRef} className="py-20 bg-white/80 dark:bg-gray-800/80 backdrop-blur-md transition-colors duration-300">
             <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
               <motion.h2 
                 className="text-4xl font-bold mb-12 text-center text-indigo-600 dark:text-indigo-400"
                 initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
+                animate={projectsInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.8 }}
               >
                 Innovative Projects
@@ -354,8 +376,8 @@ export default function Component() {
                     key={index}
                     className="bg-gray-100 dark:bg-gray-700 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2"
                     initial={{ opacity: 0, y: 50 }}
-                    animate={controls}
-                    custom={index}
+                    animate={projectsInView ? { opacity: 1, y: 0 } : {}}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
                   >
                     <div className="relative h-64 overflow-hidden group">
                       <Image 
@@ -389,18 +411,18 @@ export default function Component() {
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
                         >
-                      <SiAppstore className="w-6 h-6 mr-2" /> App Store
-                      </motion.a>
-                      {project.playStore && (
-                      <motion.a
-                          href={project.playStore}
-                          className="inline-flex items-center text-gray-800 dark:text-gray-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-300"
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
-                        >
-                          <SiGoogleplay className="w-6 h-6 mr-2" /> Play Store
+                          <SiAppstore className="w-6 h-6 mr-2" /> App Store
                         </motion.a>
-                      )}  
+                        {project.playStore && (
+                          <motion.a
+                            href={project.playStore}
+                            className="inline-flex items-center text-gray-800 dark:text-gray-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-300"
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                          >
+                            <SiGoogleplay className="w-6 h-6 mr-2" /> Play Store
+                          </motion.a>
+                        )}  
                       </div>
                     </div>
                   </motion.div>
@@ -409,9 +431,9 @@ export default function Component() {
             </div>
           </section>
 
-          <section id="contact" className="py-20 bg-white dark:bg-gray-800 transition-colors duration-300">
+          <section id="contact" ref={contactRef} className="py-20 bg-gray-100/80 dark:bg-gray-900/80 backdrop-blur-md transition-colors duration-300">
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-              <h2 className="text-3xl font-bold mb-8 text-center">Get in Touch</h2>
+              <h2 className="text-3xl font-bold mb-8 text-center text-indigo-600 dark:text-indigo-400">Get in Touch</h2>
               <p className="text-center text-lg mb-8">
                 Im always open to new opportunities and collaborations. Feel free to reach out!
               </p>
@@ -449,7 +471,7 @@ export default function Component() {
           </section>
         </main>
 
-        <footer className="bg-white dark:bg-gray-800 py-8 transition-colors duration-300">
+        <footer className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md py-8 transition-colors duration-300">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <p>&copy; {new Date().getFullYear()} Wassef Hassine. All rights reserved.</p>
           </div>
@@ -458,4 +480,3 @@ export default function Component() {
     </div>
   )
 }
-
