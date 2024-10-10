@@ -5,6 +5,7 @@ import { motion, useScroll, useSpring, useTransform, useInView } from 'framer-mo
 import { Moon, Sun, Github, Linkedin, Mail, ChevronDown, Smartphone, Code, Zap, Layers, Globe } from 'lucide-react'
 import confetti from 'canvas-confetti'
 import Image from 'next/image'
+import Link from 'next/link'
 import { SiGoogleplay, SiAppstore } from 'react-icons/si'
 
 interface Skill {
@@ -13,12 +14,17 @@ interface Skill {
 }
 
 interface Project {
+  id: string;
   title: string;
   description: string;
   image: string;
   mockup: string;
   appStore: string;
   playStore?: string;
+  duration: string;
+  techStack: string[];
+  architecture: string;
+  stateManagement: string;
 }
 
 interface ResumeData {
@@ -43,7 +49,7 @@ interface ResumeData {
   languages: string[];
 }
 
-export default function Component() {
+export default function Portfolio() {
   const [darkMode, setDarkMode] = useState(false)
   const { scrollYProgress } = useScroll()
   const scaleX = useSpring(scrollYProgress, {
@@ -82,51 +88,81 @@ export default function Component() {
 
   const projects: Project[] = [
     {
+      id: "dukhanbank",
       title: 'DukhanBank',
       description: 'Bank easily with secure login, instant transfers, bill payments, and more, all 24/7.',
       image: '/ic_app_icon.svg',
       mockup: '/ic_app_icon.svg',
       appStore: 'https://apps.apple.com/us/app/dukhan-mobile/id817391995',
       playStore: 'https://play.google.com/store/apps/details?id=com.Barwa&hl=en',
+      duration: '6 months',
+      techStack: ['Flutter', 'Dart', 'Firebase'],
+      architecture: 'Clean Architecture',
+      stateManagement: 'BLoC',
     },
     {
+      id: "digitrame",
       title: 'Digitrame',
       description: 'Manage quotes, invoices, and inventory with ease, designed for freelancers and small businesses.',
       image: '/digitrame.jpg',
       mockup: '/digitrame.jpg',
       appStore: 'https://apps.apple.com/fr/app/digitrame/id1494623897',
+      duration: '4 months',
+      techStack: ['Flutter', 'Dart', 'SQLite'],
+      architecture: 'MVVM',
+      stateManagement: 'Provider',
     },
     {
+      id: "headsapp",
       title: 'HeadsApp',
       description: 'Secure messaging for healthcare professionals to streamline consultations and patient care.',
       image: '/headsapp.png',
       mockup: '/headsapp.png',
       appStore: 'https://apps.apple.com/us/app/headsapp/id1568508905',
       playStore: 'https://play.google.com/store/apps/details?id=com.TechAngela.HeadsApp&hl=fr&gl=US',
+      duration: '5 months',
+      techStack: ['Flutter', 'Dart', 'Firebase'],
+      architecture: 'Clean Architecture',
+      stateManagement: 'Riverpod',
     },
     {
+      id: "proximitystore",
       title: 'ProximityStore',
       description: 'Find local deals and support nearby businesses with personalized shopping recommendations.',
       image: '/proximitystore.png',
       mockup: '/proximitystore.png',
       appStore: 'https://apps.apple.com/fr/app/proximitystore/id1612459998?l=en',
       playStore: 'https://play.google.com/store/apps/details?id=com.proximitystore.app',
+      duration: '3 months',
+      techStack: ['Flutter', 'Dart', 'Firebase'],
+      architecture: 'MVC',
+      stateManagement: 'GetX',
     },
     {
+      id: "swipecolorgame",
       title: 'Swipe Color Game',
       description: 'Swipe based on color cues and compete globally in this fun, challenging game.',
       image: '/swipe_color.png',
       mockup: '/swipe_color.png',
       appStore: 'https://apps.apple.com/us/app/swipe-color-game/id1522599744',
       playStore: 'https://play.google.com/store/apps/details?id=com.impactmsg.swipecolorgame',
+      duration: '2 months',
+      techStack: ['Flutter', 'Dart'],
+      architecture: 'Simple Architecture',
+      stateManagement: 'setState',
     },
     {
+      id: "lejeugui",
       title: 'Le Jeu Qui',
       description: 'A fun party game with trivia and challenges, perfect for social gatherings.',
       image: '/le_jeu_qui.png',
       mockup: '/le_jeu_qui.png',
       appStore: 'https://apps.apple.com/us/app/le-jeu-qui/id6448712204',
       playStore: 'https://play.google.com/store/apps/details?id=com.lejeuqui',
+      duration: '3 months',
+      techStack: ['Flutter', 'Dart', 'Firebase'],
+      architecture: 'MVVM',
+      stateManagement: 'MobX',
     },
   ]
 
@@ -262,6 +298,7 @@ export default function Component() {
                 </defs>
               </motion.div>
             </div>
+            
             <motion.div
               className="text-center z-10"
               initial={{ opacity: 0, y: 20 }}
@@ -283,8 +320,7 @@ export default function Component() {
             <motion.div
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, 
-              duration: 0.8 }}
+              transition={{ delay: 0.5, duration: 0.8 }}
               className="absolute bottom-10 left-1/2 transform -translate-x-1/2"
             >
               <ChevronDown className="w-12 h-12 text-indigo-600 dark:text-indigo-400 animate-bounce" />
@@ -372,60 +408,59 @@ export default function Component() {
               </motion.h2>
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
                 {projects.map((project, index) => (
+                <Link href={`/project/${project.id}`} key={project.id}>
                   <motion.div
-                    key={index}
-                    className="bg-gray-100 dark:bg-gray-700 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2"
-                    initial={{ opacity: 0, y: 50 }}
-                    animate={projectsInView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                  >
-                    <div className="relative h-64 overflow-hidden group">
-                      <Image 
-                        src={project.image} 
-                        alt={project.title} 
-                        layout="fill"
-                        objectFit="contain"
-                        className="transition-transform duration-300 group-hover:scale-110"
-                      />
-                      <motion.div
-                        className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-75 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                        initial={{ opacity: 0 }}
-                        whileHover={{ opacity: 1 }}
-                      >
+                      className="bg-gray-100 dark:bg-gray-700 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer"
+                      initial={{ opacity: 0, y: 50 }}
+                      animate={projectsInView ? { opacity: 1, y: 0 } : {}}
+                      transition={{ duration: 0.5, delay: index * 0.1 }}
+                    >
+                      <div className="relative h-64 overflow-hidden group">
                         <Image 
-                          src={project.mockup} 
-                          alt={`${project.title} mockup`} 
-                          width={150}
-                          height={300}
+                          src={project.image} 
+                          alt={project.title} 
+                          layout="fill"
                           objectFit="contain"
+                          className="transition-transform duration-300 group-hover:scale-110"
                         />
-                      </motion.div>
-                    </div>
-                    <div className="p-6">
-                      <h3 className="text-2xl font-semibold mb-3 text-indigo-600 dark:text-indigo-400">{project.title}</h3>
-                      <p className="text-gray-600 dark:text-gray-300 mb-4 line-clamp-4">{project.description}</p>
-                      <div className="flex justify-between items-center mt-4">
-                        <motion.a
-                          href={project.appStore}
-                          className="inline-flex items-center text-gray-800 dark:text-gray-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-300"
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
+                        <motion.div
+                          className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-75 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                          initial={{ opacity: 0 }}
+                          whileHover={{ opacity: 1 }}
                         >
-                          <SiAppstore className="w-6 h-6 mr-2" /> App Store
-                        </motion.a>
-                        {project.playStore && (
-                          <motion.a
-                            href={project.playStore}
+                          <Image 
+                            src={project.mockup} 
+                            alt={`${project.title} mockup`} 
+                            width={150}
+                            height={300}
+                            objectFit="contain"
+                          />
+                        </motion.div>
+                      </div>
+                      <div className="p-6">
+                        <h3 className="text-2xl font-semibold mb-3 text-indigo-600 dark:text-indigo-400">{project.title}</h3>
+                        <p className="text-gray-600 dark:text-gray-300 mb-4 line-clamp-4">{project.description}</p>
+                        <div className="flex justify-between items-center mt-4">
+                          <motion.div
                             className="inline-flex items-center text-gray-800 dark:text-gray-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-300"
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                           >
-                            <SiGoogleplay className="w-6 h-6 mr-2" /> Play Store
-                          </motion.a>
-                        )}  
+                            <SiAppstore className="w-6 h-6 mr-2" /> App Store
+                          </motion.div>
+                          {project.playStore && (
+                            <motion.div
+                              className="inline-flex items-center text-gray-800 dark:text-gray-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-300"
+                              whileHover={{ scale: 1.05 }}
+                              whileTap={{ scale: 0.95 }}
+                            >
+                              <SiGoogleplay className="w-6 h-6 mr-2" /> Play Store
+                            </motion.div>
+                          )}  
+                        </div>
                       </div>
-                    </div>
-                  </motion.div>
+                    </motion.div>
+                  </Link>
                 ))}
               </div>
             </div>
