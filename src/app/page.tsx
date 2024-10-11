@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { motion, useScroll, useSpring, useTransform, useInView } from 'framer-motion'
+import { motion, useScroll, useSpring, useTransform, useInView, useAnimation, AnimatePresence } from 'framer-motion'
 import { Moon, Sun, Github, Linkedin, Mail, ChevronDown, Smartphone, Code, Zap, Layers, Globe } from 'lucide-react'
 import confetti from 'canvas-confetti'
 import Image from 'next/image'
@@ -49,7 +49,8 @@ interface ResumeData {
   languages: string[];
 }
 
-export default function Portfolio() {
+
+export default function Component() {
   const [darkMode, setDarkMode] = useState(false)
   const { scrollYProgress } = useScroll()
   const scaleX = useSpring(scrollYProgress, {
@@ -227,27 +228,54 @@ export default function Portfolio() {
     })
   }
 
+  const colors = ['bg-red-400', 'bg-blue-400', 'bg-green-400', 'bg-yellow-400', 'bg-purple-400']
+  const shapes = Array.from({ length: 50 }).map((_, i) => ({
+    color: colors[i % colors.length],
+    initialX: `${Math.random() * 120 - 10}%`,
+    initialY: Math.random() * 7000 - 3000,
+    size: Math.random() * 60 + 20,
+    isSquare: Math.random() > 0.7,
+  }))
+
   return (
     <div className={darkMode ? 'dark' : ''}>
-      <div className="bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-indigo-900 text-gray-800 dark:text-gray-100 min-h-screen transition-colors duration-300">
+      <div className="bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-indigo-900 text-gray-800 dark:text-gray-100 min-h-screen transition-colors duration-300 relative overflow-hidden">
         <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-gray-800/80 backdrop-blur-md shadow-md transition-colors duration-300">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-            <h1 className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">Wassef Hassine</h1>
+            <motion.h1
+              className="text-2xl font-bold text-indigo-600 dark:text-indigo-400"
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              Wassef Hassine
+            </motion.h1>
             <nav>
               <ul className="flex space-x-4">
-                <li><a href="#about" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200">About</a></li>
-                <li><a href="#skills" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200">Skills</a></li>
-                <li><a href="#projects" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200">Projects</a></li>
-                <li><a href="#contact" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200">Contact</a></li>
+                {['About', 'Skills', 'Projects', 'Contact'].map((item, index) => (
+                  <motion.li
+                    key={item}
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                  >
+                    <a href={`#${item.toLowerCase()}`} className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200">
+                      {item}
+                    </a>
+                  </motion.li>
+                ))}
               </ul>
             </nav>
-            <button
+            <motion.button
               onClick={() => setDarkMode(!darkMode)}
               className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 transition-colors duration-200"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
               aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
             >
               {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-            </button>
+
+            </motion.button>
           </div>
           <motion.div
             className="h-1 bg-indigo-600 dark:bg-indigo-400"
@@ -256,10 +284,13 @@ export default function Portfolio() {
         </header>
 
         <main className="pt-20 relative">
-          <svg
+          <motion.svg
             className="absolute top-0 left-0 w-full h-full pointer-events-none"
             viewBox="0 0 100 100"
             preserveAspectRatio="none"
+            initial={{ pathLength: 0, opacity: 0 }}
+            animate={{ pathLength: 1, opacity: 1 }}
+            transition={{ duration: 2, ease: "easeInOut" }}
           >
             <motion.path
               d="M0,0 Q50,50 100,0 V100 H0 Z"
@@ -277,7 +308,7 @@ export default function Portfolio() {
                 <stop offset="100%" stopColor="#9333EA" />
               </linearGradient>
             </defs>
-          </svg>
+          </motion.svg>
 
           <section id="hero" ref={heroRef} className="relative min-h-screen flex items-center justify-center overflow-hidden">
             <div className="absolute inset-0 z-0">
@@ -305,14 +336,31 @@ export default function Portfolio() {
               animate={heroInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8 }}
             >
-              <h2 className="text-5xl md:text-7xl font-bold mb-4 text-indigo-600 dark:text-indigo-400">Flutter Developer</h2>
-              <p className="text-xl md:text-2xl mb-8">Crafting beautiful mobile experiences</p>
+              <motion.h2
+                className="text-5xl md:text-7xl font-bold mb-4 text-indigo-600 dark:text-indigo-400"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2, duration: 0.8 }}
+              >
+                Flutter Developer
+              </motion.h2>
+              <motion.p
+                className="text-xl md:text-2xl mb-8"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4, duration: 0.8 }}
+              >
+                Crafting beautiful mobile experiences
+              </motion.p>
               <motion.a
                 href="#contact"
                 className="bg-indigo-600 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-indigo-700 transition-colors duration-300"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={handleConfetti}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6, duration: 0.8 }}
               >
                 Get in Touch
               </motion.a>
@@ -320,7 +368,7 @@ export default function Portfolio() {
             <motion.div
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 0.8 }}
+              transition={{ delay: 0.8, duration: 0.8 }}
               className="absolute bottom-10 left-1/2 transform -translate-x-1/2"
             >
               <ChevronDown className="w-12 h-12 text-indigo-600 dark:text-indigo-400 animate-bounce" />
@@ -329,7 +377,14 @@ export default function Portfolio() {
 
           <section id="about" ref={aboutRef} className="py-20 bg-white/80 dark:bg-gray-800/80 backdrop-blur-md transition-colors duration-300">
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-              <h2 className="text-3xl font-bold mb-8 text-center text-indigo-600 dark:text-indigo-400">About Me</h2>
+              <motion.h2
+                className="text-3xl font-bold mb-8 text-center text-indigo-600 dark:text-indigo-400"
+                initial={{ opacity: 0, y: 20 }}
+                animate={aboutInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.5 }}
+              >
+                About Me
+              </motion.h2>
               <div className="flex flex-col md:flex-row items-center gap-8">
                 <motion.div
                   className="md:w-1/3"
@@ -362,12 +417,12 @@ export default function Portfolio() {
                   transition={{ duration: 0.5 }}
                 >
                   <p className="text-lg mb-4">
-                    Im a passionate Flutter developer with 5 years of experience in creating beautiful,
+                    I'm a passionate Flutter developer with 5 years of experience in creating beautiful,
                     high-performance mobile applications. My expertise lies in crafting intuitive user
                     interfaces and implementing complex features with clean, maintainable code.
                   </p>
                   <p className="text-lg">
-                    When Im not coding, you can find me exploring new technologies, contributing to
+                    When I'm not coding, you can find me exploring new technologies, contributing to
                     open-source projects, or sharing my knowledge through tech blogs and community events.
                   </p>
                 </motion.div>
@@ -377,7 +432,14 @@ export default function Portfolio() {
 
           <section id="skills" ref={skillsRef} className="py-20 bg-gray-100/80 dark:bg-gray-900/80 backdrop-blur-md transition-colors duration-300">
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-              <h2 className="text-3xl font-bold mb-12 text-center text-indigo-600 dark:text-indigo-400">Skills</h2>
+              <motion.h2
+                className="text-3xl font-bold mb-12 text-center text-indigo-600 dark:text-indigo-400"
+                initial={{ opacity: 0, y: 20 }}
+                animate={skillsInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.5 }}
+              >
+                Skills
+              </motion.h2>
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
                 {skills.map((skill, index) => (
                   <motion.div
@@ -407,15 +469,35 @@ export default function Portfolio() {
                 Innovative Projects
               </motion.h2>
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
-                {projects.map((project, index,) => (
+                {projects.map((project, index) => (
                   <motion.div
                     key={index}
-                    className="bg-gray-100 dark:bg-gray-700 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer"
+                    className="bg-gray-100 dark:bg-gray-700 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer relative"
                     initial={{ opacity: 0, y: 50 }}
                     animate={projectsInView ? { opacity: 1, y: 0 } : {}}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
                   >
-                    <Link href={`/project/${project.id}`} key={project.id}>
+                    {project.id === "swipecolorgame" && (
+                      <motion.div
+                        className="absolute inset-0 pointer-events-none"
+                        initial={{ opacity: 0 }}
+                        whileHover={{ opacity: 1 }}
+                      >
+                        {colors.map((color, i) => (
+                          <motion.div
+                            key={i}
+                            className={`absolute w-8 h-8 ${color} rounded-full`}
+                            initial={{ x: "50%", y: "50%" }}
+                            animate={{
+                              x: `${Math.random() * 100}%`,
+                              y: `${Math.random() * 100}%`,
+                              transition: { duration: 2, repeat: Infinity, repeatType: "reverse" }
+                            }}
+                          />
+                        ))}
+                      </motion.div>
+                    )}
+                    <Link href={`/project/${project.id}`}>
                       <div className="relative h-64 overflow-hidden group">
                         <Image
                           src={project.image}
@@ -445,7 +527,8 @@ export default function Portfolio() {
                       <div className="flex justify-between items-center mt-4">
                         <motion.a
                           href={project.appStore}
-                          target={"_blank"}
+                          target="_blank"
+                          rel="noopener noreferrer"
                           className="inline-flex items-center text-gray-800 dark:text-gray-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-300"
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
@@ -455,7 +538,8 @@ export default function Portfolio() {
                         {project.playStore && (
                           <motion.a
                             href={project.playStore}
-                            target={"_blank"}
+                            target="_blank"
+                            rel="noopener noreferrer"
                             className="inline-flex items-center text-gray-800 dark:text-gray-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-300"
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
@@ -475,7 +559,7 @@ export default function Portfolio() {
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
               <h2 className="text-3xl font-bold mb-8 text-center text-indigo-600 dark:text-indigo-400">Get in Touch</h2>
               <p className="text-center text-lg mb-8">
-                Im always open to new opportunities and collaborations. Feel free to reach out!
+                I'm always open to new opportunities and collaborations. Feel free to reach out!
               </p>
               <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4">
                 <motion.a
@@ -513,7 +597,13 @@ export default function Portfolio() {
 
         <footer className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md py-8 transition-colors duration-300">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <p>&copy; {new Date().getFullYear()} Wassef Hassine. All rights reserved.</p>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+            >
+              &copy; {new Date().getFullYear()} Wassef Hassine. All rights reserved.
+            </motion.p>
           </div>
         </footer>
       </div>

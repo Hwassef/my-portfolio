@@ -11,8 +11,8 @@ interface Project {
   id: string;
   title: string;
   description: string;
-  image: string;
-  mockup: string;
+  logo: string;
+  mockups: string[];
   appStore: string;
   playStore?: string;
   duration: string;
@@ -25,8 +25,12 @@ const project: Project = {
   id: "headsapp",
   title: 'HeadsApp',
   description: 'Secure messaging for healthcare professionals to streamline consultations and patient care.',
-  image: '/headsapp.png',
-  mockup: '/headsapp.png',
+  logo: '/headsapp-logo.png',
+  mockups: [
+    '/headsapp_mockups.png',
+    '/headsapp_mockup_two.png',
+    '/headsapp_mockup_three.png',
+  ],
   appStore: 'https://apps.apple.com/us/app/headsapp/id1568508905',
   playStore: 'https://play.google.com/store/apps/details?id=com.TechAngela.HeadsApp&hl=fr&gl=US',
   duration: '5 months',
@@ -54,7 +58,7 @@ export default function ProjectDetails() {
   ]
 
   return (
-    <div className={`${darkMode ? 'dark' : ''} min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300`}>
+    <div className={`${darkMode ? 'dark' : ''} min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-900 dark:to-blue-900 text-gray-900 dark:text-gray-100 transition-colors duration-300`}>
       <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-gray-800/80 backdrop-blur-md shadow-sm transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
           <Link href="/" className="flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200 transition-colors duration-200">
@@ -72,21 +76,20 @@ export default function ProjectDetails() {
       </header>
 
       <main className="pt-20 pb-16 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-5xl mx-auto">
-          <motion.div 
+        <div className="max-w-6xl mx-auto">
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             className="text-center mb-12"
           >
-     <Image
-  src={project.image}
-  alt={project.title}
-  width={150}
-  height={80}
-  className="mx-auto mb-6 rounded-3xl shadow-lg"
-/>
-
+            <Image
+              src={project.logo}
+              alt={project.title}
+              width={100}
+              height={100}
+              className="mx-auto mb-6 rounded-3xl shadow-lg"
+            />
             <h1 className="text-4xl sm:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400">
               {project.title}
             </h1>
@@ -95,17 +98,16 @@ export default function ProjectDetails() {
             </p>
           </motion.div>
 
-          <nav className="mb-8">
+          <nav className="mb-12">
             <ul className="flex justify-center space-x-4">
               {sections.map((section) => (
                 <li key={section.id}>
                   <button
                     onClick={() => setActiveSection(section.id)}
-                    className={`px-4 py-2 rounded-full transition-colors duration-200 ${
-                      activeSection === section.id
-                        ? 'bg-blue-600 text-white'
-                        : 'text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400'
-                    }`}
+                    className={`px-6 py-2 rounded-full transition-all duration-300 ${activeSection === section.id
+                        ? 'bg-blue-600 text-white shadow-lg transform scale-105'
+                        : 'text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-white dark:hover:bg-gray-800'
+                      }`}
                   >
                     {section.title}
                   </button>
@@ -121,9 +123,10 @@ export default function ProjectDetails() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3 }}
+              className="bg-white dark:bg-gray-800 rounded-3xl shadow-xl p-8 mb-12"
             >
               {activeSection === 'overview' && (
-                <div className="grid md:grid-cols-2 gap-8">
+                <div className="grid md:grid-cols-2 gap-8 items-center">
                   <div>
                     <h2 className="text-2xl font-semibold mb-4 text-blue-600 dark:text-blue-400">About HeadsApp</h2>
                     <p className="text-gray-600 dark:text-gray-400 mb-4">
@@ -133,21 +136,42 @@ export default function ProjectDetails() {
                       With its intuitive interface and robust features, HeadsApp is revolutionizing the way healthcare providers collaborate and share critical information.
                     </p>
                   </div>
-                  <Image
-                    src={project.mockup}
-                    alt={`${project.title} mockup`}
-                    width={120} 
-                    height={100} 
-                    objectFit="contain"
-                    className="rounded-lg"
-                  />
-            </div>
-
-                  
+                  <div className="relative h-[600px] w-full">
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="relative w-full h-full max-w-md">
+                        {project.mockups.map((mockup, index) => (
+                          <motion.div
+                            key={index}
+                            className="absolute top-1/2 left-1/2 w-48 h-96 rounded-3xl shadow-2xl overflow-hidden"
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            animate={{
+                              opacity: 1,
+                              scale: 1,
+                              x: `${(index - 1) * 60}%`,
+                              y: `-50%`,
+                              rotate: (index - 1) * 5,
+                              zIndex: 3 - index
+                            }}
+                            transition={{ delay: index * 0.2, duration: 0.5 }}
+                            whileHover={{ scale: 1.05, zIndex: 10 }}
+                          >
+                            <Image
+                              src={mockup}
+                              alt={`${project.title} mockup ${index + 1}`}
+                              layout="fill"
+                              objectFit="cover"
+                              className="rounded-3xl"
+                            />
+                          </motion.div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
               )}
 
               {activeSection === 'details' && (
-                <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8">
+                <div>
                   <h2 className="text-2xl font-semibold mb-6 text-blue-600 dark:text-blue-400">Project Details</h2>
                   <ul className="space-y-4">
                     {[
@@ -156,10 +180,16 @@ export default function ProjectDetails() {
                       { icon: Layers, text: `Architecture: ${project.architecture}` },
                       { icon: Zap, text: `State Management: ${project.stateManagement}` }
                     ].map((item, index) => (
-                      <li key={index} className="flex items-center text-gray-700 dark:text-gray-300">
-                        <item.icon className="w-5 h-5 mr-3 text-blue-600 dark:text-blue-400" />
+                      <motion.li
+                        key={index}
+                        className="flex items-center text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 p-4 rounded-xl"
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: index * 0.1 }}
+                      >
+                        <item.icon className="w-6 h-6 mr-3 text-blue-600 dark:text-blue-400" />
                         <span>{item.text}</span>
-                      </li>
+                      </motion.li>
                     ))}
                   </ul>
                 </div>
@@ -172,11 +202,17 @@ export default function ProjectDetails() {
                     { icon: Shield, title: 'HIPAA Compliant', description: 'Meets all necessary regulations for healthcare data security.' },
                     { icon: Stethoscope, title: 'Streamlined Consultations', description: 'Efficient tools for quick and effective patient care discussions.' },
                   ].map((feature, index) => (
-                    <div key={index} className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+                    <motion.div
+                      key={index}
+                      className="bg-gray-100 dark:bg-gray-700 rounded-xl shadow-lg p-6 transform hover:scale-105 transition-all duration-300"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.1 }}
+                    >
                       <feature.icon className="w-12 h-12 mb-4 text-blue-600 dark:text-blue-400" />
                       <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
                       <p className="text-gray-600 dark:text-gray-400">{feature.description}</p>
-                    </div>
+                    </motion.div>
                   ))}
                 </div>
               )}
@@ -184,7 +220,7 @@ export default function ProjectDetails() {
           </AnimatePresence>
 
           <motion.div
-            className="mt-12 flex flex-col sm:flex-row justify-center items-center gap-4"
+            className="flex flex-col sm:flex-row justify-center items-center gap-4"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}

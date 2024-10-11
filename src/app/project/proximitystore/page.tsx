@@ -12,13 +12,13 @@ interface Project {
   title: string;
   description: string;
   image: string;
-  mockup: string;
   appStore: string;
   playStore?: string;
   duration: string;
   techStack: string[];
   architecture: string;
   stateManagement: string;
+  mockups: string[];
 }
 
 const project: Project = {
@@ -26,13 +26,18 @@ const project: Project = {
   title: 'ProximityStore',
   description: 'Find local deals and support nearby businesses with personalized shopping recommendations.',
   image: '/proximitystore.png',
-  mockup: '/proximitystore.png',
   appStore: 'https://apps.apple.com/fr/app/proximitystore/id1612459998?l=en',
   playStore: 'https://play.google.com/store/apps/details?id=com.proximitystore.app',
   duration: '3 months',
   techStack: ['Flutter', 'Dart', 'Firebase'],
   architecture: 'MVC',
   stateManagement: 'GetX',
+  mockups: [
+    '/proximitystore_1.png',
+    '/proximitystore_2.png',
+    '/proximitystore_3.png',
+    '/proximitystore_4.png',
+  ]
 }
 
 export default function ProjectDetails() {
@@ -73,7 +78,7 @@ export default function ProjectDetails() {
 
       <main className="pt-20 pb-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-5xl mx-auto">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
@@ -101,11 +106,10 @@ export default function ProjectDetails() {
                 <li key={section.id}>
                   <button
                     onClick={() => setActiveSection(section.id)}
-                    className={`px-4 py-2 rounded-full transition-colors duration-200 ${
-                      activeSection === section.id
-                        ? 'bg-blue-600 text-white'
-                        : 'text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400'
-                    }`}
+                    className={`px-4 py-2 rounded-full transition-colors duration-200 ${activeSection === section.id
+                      ? 'bg-blue-600 text-white'
+                      : 'text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400'
+                      }`}
                   >
                     {section.title}
                   </button>
@@ -133,18 +137,39 @@ export default function ProjectDetails() {
                       Empowering local businesses to grow while offering customers curated deals in their proximity.
                     </p>
                   </div>
-                  <div className="relative h-64 md:h-auto rounded-lg overflow-hidden shadow-xl">
-                    <Image
-                      src={project.mockup}
-                      alt={`${project.title} mockup`}
-                      sizes='100vw'
-                      objectFit="contain"
-                      className="rounded-lg"
-                    />
+                  <div className="relative h-[600px] w-full">
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="relative w-full h-full max-w-md">
+                        {project.mockups.map((mockup, index) => (
+                          <motion.div
+                            key={index}
+                            className="absolute top-1/2 left-1/2 w-48 h-96 rounded-3xl shadow-2xl overflow-hidden"
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            animate={{
+                              opacity: 1,
+                              scale: 1,
+                              x: `${(index - 1) * 60}%`,
+                              y: `-50%`,
+                              rotate: (index - 1) * 5,
+                              zIndex: 3 - index
+                            }}
+                            transition={{ delay: index * 0.2, duration: 0.5 }}
+                            whileHover={{ scale: 1.05, zIndex: 10 }}
+                          >
+                            <Image
+                              src={mockup}
+                              alt={`${project.title} mockup ${index + 1}`}
+                              layout="fill"
+                              objectFit="cover"
+                              className="rounded-3xl"
+                            />
+                          </motion.div>
+                        ))}
+                      </div>
+                    </div>
                   </div>
                 </div>
               )}
-
               {activeSection === 'details' && (
                 <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8">
                   <h2 className="text-2xl font-semibold mb-6 text-blue-600 dark:text-blue-400">Project Details</h2>
@@ -199,7 +224,7 @@ export default function ProjectDetails() {
               <SiAppstore className="w-5 h-5 mr-2" />
               Download on the App Store
             </motion.a>
-            
+
             {project.playStore && (
               <motion.a
                 href={project.playStore}

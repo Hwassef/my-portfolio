@@ -10,13 +10,16 @@ const project = {
   title: 'Le Jeu Qui',
   description: 'Le jeu qui... permet de passer une soirée délirante entre amis ou en famille !',
   image: '/le_jeu_qui.png',
-  mockup: '/le_jeu_qui.png',
   appStore: 'https://apps.apple.com/us/app/le-jeu-qui/id6448712204',
   playStore: 'https://play.google.com/store/apps/details?id=com.lejeuqui',
   duration: '3 months',
   techStack: ['Flutter', 'Dart', 'Firebase'],
   architecture: 'MVVM',
   stateManagement: 'MobX',
+  mockups: [
+    '/lejeuqui_mockup_1.png',
+    '/lejeuqui_mockup_2.png',
+  ]
 }
 
 export default function ProjectDetails() {
@@ -113,13 +116,38 @@ export default function ProjectDetails() {
                       Whether youre looking to break the ice at a party or simply want to spice up your game nights, Le Jeu Qui offers an engaging and entertaining experience for players of all ages.
                     </p>
                   </div>
-                  <div className="relative h-64 md:h-auto rounded-lg overflow-hidden shadow-xl">
-                    <Image
-                      src={project.mockup}
-                      alt={`${project.title} mockup`}
-                      className="w-full h-full object-cover rounded-lg"
-                    />
+                  <div className="relative h-[600px] w-full">
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="relative w-full h-full max-w-md">
+                        {project.mockups.map((mockup, index) => (
+                          <motion.div
+                            key={index}
+                            className="absolute top-1/2 left-1/2 w-48 h-96 rounded-3xl shadow-2xl overflow-hidden"
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            animate={{
+                              opacity: 1,
+                              scale: 1,
+                              x: `${(index - 1) * 60}%`,
+                              y: `-50%`,
+                              rotate: (index - 1) * 5,
+                              zIndex: 3 - index
+                            }}
+                            transition={{ delay: index * 0.2, duration: 0.5 }}
+                            whileHover={{ scale: 1.05, zIndex: 10 }}
+                          >
+                            <Image
+                              src={mockup}
+                              alt={`${project.title} mockup ${index + 1}`}
+                              layout="fill"
+                              objectFit="cover"
+                              className="rounded-3xl"
+                            />
+                          </motion.div>
+                        ))}
+                      </div>
+                    </div>
                   </div>
+
                 </div>
               )}
 

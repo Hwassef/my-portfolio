@@ -12,13 +12,13 @@ interface Project {
   title: string;
   description: string;
   image: string;
-  mockup: string;
   appStore: string;
   playStore?: string;
   duration: string;
   techStack: string[];
   architecture: string;
   stateManagement: string;
+  mockups: string[];
 }
 
 const project: Project = {
@@ -26,13 +26,18 @@ const project: Project = {
   title: 'Swipe Color Game',
   description: 'A fast-paced, fun, and challenging game where players swipe based on color cues and compete globally.',
   image: '/swipe_color.png',
-  mockup: '/swipe_color.png',
   appStore: 'https://apps.apple.com/us/app/swipe-color-game/id1522599744',
   playStore: 'https://play.google.com/store/apps/details?id=com.impactmsg.swipecolorgame',
   duration: '2 months',
   techStack: ['Flutter', 'Dart'],
   architecture: 'Simple Architecture',
   stateManagement: 'setState',
+  mockups: [
+    '/swipe_mockup_1.png',
+    '/swipe_mockup_2.png',
+    '/swipe_mockup_3.png',
+    '/swipe_mockup_4.png',
+  ]
 }
 
 export default function ProjectDetails() {
@@ -100,11 +105,10 @@ export default function ProjectDetails() {
                 <li key={section.id}>
                   <button
                     onClick={() => setActiveSection(section.id)}
-                    className={`px-4 py-2 rounded-full transition-colors duration-200 ${
-                      activeSection === section.id
-                        ? 'bg-blue-600 text-white'
-                        : 'text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400'
-                    }`}
+                    className={`px-4 py-2 rounded-full transition-colors duration-200 ${activeSection === section.id
+                      ? 'bg-blue-600 text-white'
+                      : 'text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400'
+                      }`}
                   >
                     {section.title}
                   </button>
@@ -129,15 +133,39 @@ export default function ProjectDetails() {
                       Swipe Color Game is a fast-paced, fun, and challenging game where players swipe based on color cues and compete globally.
                     </p>
                   </div>
-                  <div className="relative h-64 md:h-auto rounded-lg overflow-hidden shadow-xl">
-                    <Image
-                      src={project.mockup}
-                      alt={`${project.title} mockup`}
-                      sizes='100vw'
-                      objectFit="contain"
-                      className="rounded-lg"
-                    />
+                  <div className="relative h-[600px] w-full">
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="relative w-full h-full max-w-md">
+                        {project.mockups.map((mockup, index) => (
+                          <motion.div
+                            key={index}
+                            className="absolute top-1/2 left-1/2 w-48 h-96 rounded-3xl shadow-2xl overflow-hidden"
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            animate={{
+                              opacity: 1,
+                              scale: 1,
+                              x: `${(index - 1) * 60}%`,
+                              y: `-50%`,
+                              rotate: (index - 1) * 5,
+                              zIndex: 3 - index
+                            }}
+                            transition={{ delay: index * 0.2, duration: 0.5 }}
+                            whileHover={{ scale: 1.05, zIndex: 10 }}
+                          >
+                            <Image
+                              src={mockup}
+                              alt={`${project.title} mockup ${index + 1}`}
+                              layout="fill"
+                              objectFit="cover"
+                              className="rounded-3xl"
+                            />
+                          </motion.div>
+                        ))}
+                      </div>
+                    </div>
                   </div>
+
+
                 </div>
               )}
 
@@ -159,7 +187,7 @@ export default function ProjectDetails() {
                   </ul>
                 </div>
               )}
-            {activeSection === 'features' && (
+              {activeSection === 'features' && (
                 <div className="grid md:grid-cols-3 gap-6">
                   {[
                     { icon: Gamepad2, title: 'Multiple Game Modes', description: 'Enjoy various modes including Classic, Time Attack, Zen Mode, and more for diverse gameplay experiences.' },
