@@ -59,7 +59,7 @@ export default function Portfolio() {
   })
 
   useEffect(() => {
-    const isDarkMode = localStorage.getItem('darkMode') === 'true' || 
+    const isDarkMode = localStorage.getItem('darkMode') === 'true' ||
       (!('darkMode' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
     setDarkMode(isDarkMode)
   }, [])
@@ -293,12 +293,12 @@ export default function Portfolio() {
                 </svg>
                 <defs>
                   <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
-                    <path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="0.5"/>
+                    <path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="0.5" />
                   </pattern>
                 </defs>
               </motion.div>
             </div>
-            
+
             <motion.div
               className="text-center z-10"
               initial={{ opacity: 0, y: 20 }}
@@ -398,7 +398,7 @@ export default function Portfolio() {
 
           <section id="projects" ref={projectsRef} className="py-20 bg-white/80 dark:bg-gray-800/80 backdrop-blur-md transition-colors duration-300">
             <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-              <motion.h2 
+              <motion.h2
                 className="text-4xl font-bold mb-12 text-center text-indigo-600 dark:text-indigo-400"
                 initial={{ opacity: 0, y: -20 }}
                 animate={projectsInView ? { opacity: 1, y: 0 } : {}}
@@ -407,18 +407,19 @@ export default function Portfolio() {
                 Innovative Projects
               </motion.h2>
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
-                {projects.map((project, index) => (
-                <Link href={`/project/${project.id}`} key={project.id}>
+                {projects.map((project, index,) => (
                   <motion.div
-                      className="bg-gray-100 dark:bg-gray-700 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer"
-                      initial={{ opacity: 0, y: 50 }}
-                      animate={projectsInView ? { opacity: 1, y: 0 } : {}}
-                      transition={{ duration: 0.5, delay: index * 0.1 }}
-                    >
+                    key={index}
+                    className="bg-gray-100 dark:bg-gray-700 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer"
+                    initial={{ opacity: 0, y: 50 }}
+                    animate={projectsInView ? { opacity: 1, y: 0 } : {}}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                  >
+                    <Link href={`/project/${project.id}`} key={project.id}>
                       <div className="relative h-64 overflow-hidden group">
-                        <Image 
-                          src={project.image} 
-                          alt={project.title} 
+                        <Image
+                          src={project.image}
+                          alt={project.title}
                           layout="fill"
                           objectFit="contain"
                           className="transition-transform duration-300 group-hover:scale-110"
@@ -428,41 +429,43 @@ export default function Portfolio() {
                           initial={{ opacity: 0 }}
                           whileHover={{ opacity: 1 }}
                         >
-                          <Image 
-                            src={project.mockup} 
-                            alt={`${project.title} mockup`} 
+                          <Image
+                            src={project.mockup}
+                            alt={`${project.title} mockup`}
                             width={150}
                             height={300}
                             objectFit="contain"
                           />
                         </motion.div>
                       </div>
-                      <div className="p-6">
-                        <h3 className="text-2xl font-semibold mb-3 text-indigo-600 dark:text-indigo-400">{project.title}</h3>
-                        <p className="text-gray-600 dark:text-gray-300 mb-4 line-clamp-4">{project.description}</p>
-                        <div className="flex justify-between items-center mt-4">
+                    </Link>
+                    <div className="p-6">
+                      <h3 className="text-2xl font-semibold mb-3 text-indigo-600 dark:text-indigo-400">{project.title}</h3>
+                      <p className="text-gray-600 dark:text-gray-300 mb-4 line-clamp-4">{project.description}</p>
+                      <div className="flex justify-between items-center mt-4">
+                        <motion.a
+                          href={project.appStore}
+                          target={"_blank"}
+                          className="inline-flex items-center text-gray-800 dark:text-gray-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-300"
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                        >
+                          <SiAppstore className="w-6 h-6 mr-2" /> App Store
+                        </motion.a>
+                        {project.playStore && (
                           <motion.a
-                            href={project.appStore}
+                            href={project.playStore}
+                            target={"_blank"}
                             className="inline-flex items-center text-gray-800 dark:text-gray-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-300"
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                           >
-                            <SiAppstore className="w-6 h-6 mr-2" /> App Store
+                            <SiGoogleplay className="w-6 h-6 mr-2" /> Play Store
                           </motion.a>
-                          {project.playStore && (
-                            <motion.a
-                            href={project.playStore}
-                              className="inline-flex items-center text-gray-800 dark:text-gray-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-300"
-                              whileHover={{ scale: 1.05 }}
-                              whileTap={{ scale: 0.95 }}
-                            >
-                              <SiGoogleplay className="w-6 h-6 mr-2" /> Play Store
-                            </motion.a>
-                          )}  
-                        </div>
+                        )}
                       </div>
-                    </motion.div>
-                  </Link>
+                    </div>
+                  </motion.div>
                 ))}
               </div>
             </div>
