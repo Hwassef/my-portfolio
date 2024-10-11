@@ -441,21 +441,23 @@ export default function Portfolio() {
                         <h3 className="text-2xl font-semibold mb-3 text-indigo-600 dark:text-indigo-400">{project.title}</h3>
                         <p className="text-gray-600 dark:text-gray-300 mb-4 line-clamp-4">{project.description}</p>
                         <div className="flex justify-between items-center mt-4">
-                          <motion.div
+                          <motion.a
+                            href={project.appStore}
                             className="inline-flex items-center text-gray-800 dark:text-gray-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-300"
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                           >
                             <SiAppstore className="w-6 h-6 mr-2" /> App Store
-                          </motion.div>
+                          </motion.a>
                           {project.playStore && (
-                            <motion.div
+                            <motion.a
+                            href={project.playStore}
                               className="inline-flex items-center text-gray-800 dark:text-gray-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-300"
                               whileHover={{ scale: 1.05 }}
                               whileTap={{ scale: 0.95 }}
                             >
                               <SiGoogleplay className="w-6 h-6 mr-2" /> Play Store
-                            </motion.div>
+                            </motion.a>
                           )}  
                         </div>
                       </div>
