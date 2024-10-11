@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ArrowLeft, Calendar, Code, Layers, Zap, Sun, Moon, MessageCircle, Shield, Stethoscope } from 'lucide-react'
+import { ArrowLeft, Calendar, Code, Layers, Zap, Sun, Moon, MessageCircle, Shield, Ungroup } from 'lucide-react'
 import Link from 'next/link'
 import { SiGoogleplay, SiAppstore } from 'react-icons/si'
 
@@ -168,7 +168,7 @@ export default function ProjectDetails() {
                   {[
                     { icon: MessageCircle, title: 'Streamlined Invoicing', description: 'Create and manage invoices effortlessly, ensuring timely payments.' },
                     { icon: Shield, title: 'Secure Data', description: 'All sensitive information is protected with advanced encryption.' },
-                    { icon: Stethoscope, title: 'User-Friendly Interface', description: 'Navigate with ease thanks to an intuitive design tailored for users.' },
+                    { icon: Ungroup, title: 'User-Friendly Interface', description: 'Navigate with ease thanks to an intuitive design tailored for users.' },
                   ].map((feature, index) => (
                     <div key={index} className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
                       <feature.icon className="w-12 h-12 mb-4 text-blue-600 dark:text-blue-400" />

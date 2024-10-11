@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ArrowLeft, Calendar, Code, Layers, Zap, Sun, Moon, MessageCircle, Shield, Stethoscope } from 'lucide-react'
+import { ArrowLeft, Calendar, Code, Layers, Zap, Sun, Moon, MessageCircle, Shield, Handshake } from 'lucide-react'
 import Link from 'next/link'
 import { SiGoogleplay, SiAppstore } from 'react-icons/si'
 
@@ -169,7 +169,7 @@ export default function ProjectDetails() {
                   {[
                     { icon: MessageCircle, title: 'Personalized Recommendations', description: 'Get local deals tailored to your preferences and location.' },
                     { icon: Shield, title: 'Data Security', description: 'Your personal data is safe and encrypted.' },
-                    { icon: Stethoscope, title: 'Nearby Business Support', description: 'Encourages customers to shop locally, helping small businesses grow.' },
+                    { icon: Handshake, title: 'Nearby Business Support', description: 'Encourages customers to shop locally, helping small businesses grow.' },
                   ].map((feature, index) => (
                     <div key={index} className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
                       <feature.icon className="w-12 h-12 mb-4 text-blue-600 dark:text-blue-400" />

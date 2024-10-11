@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ArrowLeft, Calendar, Code, Layers, Zap, Sun, Moon, MessageCircle, Shield, Stethoscope } from 'lucide-react'
+import { ArrowLeft, Calendar, Code, Layers, Zap, Sun, Moon, Trophy, Gamepad2, Globe } from 'lucide-react'
 import Link from 'next/link'
 import { SiGoogleplay, SiAppstore } from 'react-icons/si'
 
@@ -159,13 +159,12 @@ export default function ProjectDetails() {
                   </ul>
                 </div>
               )}
-
-              {activeSection === 'features' && (
+            {activeSection === 'features' && (
                 <div className="grid md:grid-cols-3 gap-6">
                   {[
-                    { icon: MessageCircle, title: 'Secure Messaging', description: 'End-to-end encrypted communication for patient data protection.' },
-                    { icon: Shield, title: 'HIPAA Compliant', description: 'Meets all necessary regulations for healthcare data security.' },
-                    { icon: Stethoscope, title: 'Streamlined Consultations', description: 'Efficient tools for quick and effective patient care discussions.' },
+                    { icon: Gamepad2, title: 'Multiple Game Modes', description: 'Enjoy various modes including Classic, Time Attack, Zen Mode, and more for diverse gameplay experiences.' },
+                    { icon: Trophy, title: 'Global Leaderboards', description: 'Compete with players worldwide and climb the ranks to become the ultimate Swipe Color champion.' },
+                    { icon: Globe, title: 'Offline Play', description: 'Play anytime, anywhere - no internet connection required for most game modes.' },
                   ].map((feature, index) => (
                     <div key={index} className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
                       <feature.icon className="w-12 h-12 mb-4 text-blue-600 dark:text-blue-400" />
