@@ -1,0 +1,29 @@
+{
+    "projects": {
+        "dukhan_bank": {
+            "description": "Bank easily with secure login, instant transfers, bill payments, and more, all 24/7.",
+            "duration": "6 months"
+        },
+        "digitrame": {
+            "description": "Manage quotes, invoices, and inventory with ease, designed for freelancers and small businesses.",
+            "duration": "4 months"
+        },
+        "headsapp": {
+            "description": "Secure messaging for healthcare professionals to streamline consultations and patient care.",
+            "duration": "5 months"
+        },
+        "proximity_store": {
+            "description": "Find local deals and support nearby businesses with personalized shopping recommendations.",
+            "duration": "3 months"
+        },
+        "swipe_color_game": {
+            "description": "Swipe based on color cues and compete globally in this fun, challenging game.",
+            "duration": "2 months"
+        },
+        "le_jeu_qui": {
+            "description": "A fun party game with trivia and challenges, perfect for social gatherings.",
+            "duration": "3 months"
+        }
+
+    }
+}

@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ArrowLeft, Calendar, Code, Layers, Zap, Sun, Moon, Users, Star, Gamepad } from 'lucide-react'
+import { ArrowLeft, Sun, Moon, Calendar, Code, Layers, Zap, ChevronLeft, ChevronRight, Users, Star, Gamepad } from 'lucide-react'
 import Image from 'next/image'
+import Link from 'next/link'
 
 const project = {
   id: "lejeugui",
@@ -21,10 +22,11 @@ const project = {
     '/lejeuqui_mockup_2.png',
   ]
 }
+const MotionImage = motion(Image)
 
-export default function ProjectDetails() {
+export default function ProjectShowcase() {
   const [darkMode, setDarkMode] = useState(false)
-  const [activeSection, setActiveSection] = useState('overview')
+  const [activeMockup, setActiveMockup] = useState(0)
 
   useEffect(() => {
     if (darkMode) {
@@ -34,42 +36,44 @@ export default function ProjectDetails() {
     }
   }, [darkMode])
 
-  const sections = [
-    { id: 'overview', title: 'Overview' },
-    { id: 'details', title: 'Project Details' },
-    { id: 'features', title: 'Key Features' },
-  ]
+  const nextMockup = () => setActiveMockup((prev) => (prev + 1) % project.mockups.length)
+  const prevMockup = () => setActiveMockup((prev) => (prev - 1 + project.mockups.length) % project.mockups.length)
 
   return (
-    <div className={`${darkMode ? 'dark' : ''} min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300`}>
-      <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-gray-800/80 backdrop-blur-md shadow-sm transition-colors duration-300">
+    <div className={`${darkMode ? 'dark' : ''} min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 text-gray-900 dark:text-gray-100 transition-colors duration-300`}>
+      <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md shadow-sm transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-          <a href="/" className="flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200 transition-colors duration-200">
+          <Link href="/" className="flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200 transition-colors duration-200">
             <ArrowLeft className="w-5 h-5 mr-2" />
             Back to Projects
-          </a>
-          <button
+          </Link>
+          <motion.button
             onClick={() => setDarkMode(!darkMode)}
             className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 transition-colors duration-200"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
             aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
           >
             {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-          </button>
+          </motion.button>
         </div>
       </header>
 
-      <main className="pt-20 pb-16 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-5xl mx-auto">
+      <main className="pt-20 pb-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
+            className="text-center mb-16"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="text-center mb-12"
+            transition={{ duration: 0.6 }}
           >
-            <img
+            <MotionImage
               src={project.image}
               alt={project.title}
-              className="w-40 h-40 mx-auto mb-6 rounded-3xl shadow-lg object-cover"
+              width={160}
+              height={160}
+              className="mx-auto mb-6 rounded-3xl shadow-lg"
+              whileHover={{ scale: 1.05, rotate: 5 }}
             />
             <h1 className="text-4xl sm:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400">
               {project.title}
@@ -79,126 +83,131 @@ export default function ProjectDetails() {
             </p>
           </motion.div>
 
-          <nav className="mb-8">
-            <ul className="flex justify-center space-x-4">
-              {sections.map((section) => (
-                <li key={section.id}>
-                  <button
-                    onClick={() => setActiveSection(section.id)}
-                    className={`px-4 py-2 rounded-full transition-colors duration-200 ${activeSection === section.id
-                      ? 'bg-blue-600 text-white'
-                      : 'text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400'
-                      }`}
-                  >
-                    {section.title}
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </nav>
-
-          <AnimatePresence mode="wait">
+          <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
             <motion.div
-              key={activeSection}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
+              className="space-y-8"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
             >
-              {activeSection === 'overview' && (
-                <div className="grid md:grid-cols-2 gap-8">
-                  <div>
-                    <h2 className="text-2xl font-semibold mb-4 text-blue-600 dark:text-blue-400">About Le Jeu Qui</h2>
-                    <p className="text-gray-600 dark:text-gray-400 mb-4">
-                      Le Jeu Qui is an exciting party game designed to bring friends and family together for hilarious evenings filled with laughter and fun. With a wide variety of challenges and questions, it promises to create unforgettable moments during your gatherings.
-                    </p>
-                    <p className="text-gray-600 dark:text-gray-400">
-                      Whether youre looking to break the ice at a party or simply want to spice up your game nights, Le Jeu Qui offers an engaging and entertaining experience for players of all ages.
-                    </p>
-                  </div>
-                  <div className="relative h-[600px] w-full">
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="relative w-full h-full max-w-md">
-                        {project.mockups.map((mockup, index) => (
-                          <motion.div
-                            key={index}
-                            className="absolute top-1/2 left-1/2 w-48 h-96 rounded-3xl shadow-2xl overflow-hidden"
-                            initial={{ opacity: 0, scale: 0.8 }}
-                            animate={{
-                              opacity: 1,
-                              scale: 1,
-                              x: `${(index - 1) * 60}%`,
-                              y: `-50%`,
-                              rotate: (index - 1) * 5,
-                              zIndex: 3 - index
-                            }}
-                            transition={{ delay: index * 0.2, duration: 0.5 }}
-                            whileHover={{ scale: 1.05, zIndex: 10 }}
-                          >
-                            <Image
-                              src={mockup}
-                              alt={`${project.title} mockup ${index + 1}`}
-                              layout="fill"
-                              objectFit="cover"
-                              className="rounded-3xl"
-                            />
-                          </motion.div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-
-                </div>
-              )}
-
-              {activeSection === 'details' && (
-                <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8">
-                  <h2 className="text-2xl font-semibold mb-6 text-blue-600 dark:text-blue-400">Project Details</h2>
-                  <ul className="space-y-4">
-                    {[
-                      { icon: Calendar, text: `Duration: ${project.duration}` },
-                      { icon: Code, text: `Tech Stack: ${project.techStack.join(', ')}` },
-                      { icon: Layers, text: `Architecture: ${project.architecture}` },
-                      { icon: Zap, text: `State Management: ${project.stateManagement}` }
-                    ].map((item, index) => (
-                      <li key={index} className="flex items-center text-gray-700 dark:text-gray-300">
-                        <item.icon className="w-5 h-5 mr-3 text-blue-600 dark:text-blue-400" />
-                        <span>{item.text}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-
-              {activeSection === 'features' && (
-                <div className="grid md:grid-cols-3 gap-6">
-                  {[
-                    { icon: Users, title: 'Multiplayer Fun', description: 'Play with friends and family for an exciting group experience.' },
-                    { icon: Star, title: 'Diverse Challenges', description: 'Wide variety of questions and tasks to keep the game fresh and entertaining.' },
-                    { icon: Gamepad, title: 'Easy to Play', description: 'Simple rules and intuitive interface for players of all ages.' },
-                  ].map((feature, index) => (
-                    <div key={index} className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-                      <feature.icon className="w-12 h-12 mb-4 text-blue-600 dark:text-blue-400" />
-                      <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
-                      <p className="text-gray-600 dark:text-gray-400">{feature.description}</p>
-                    </div>
+              <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6">
+                <h2 className="text-2xl font-semibold mb-4 text-blue-600 dark:text-blue-400">Tech Stack</h2>
+                <div className="flex flex-wrap gap-2">
+                  {project.techStack.map((tech, index) => (
+                    <motion.span
+                      key={index}
+                      className="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm"
+                      whileHover={{ scale: 1.05 }}
+                    >
+                      {tech}
+                    </motion.span>
                   ))}
                 </div>
-              )}
+              </div>
+              <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6">
+                <h2 className="text-2xl font-semibold mb-4 text-blue-600 dark:text-blue-400">Project Details</h2>
+                <ul className="space-y-4">
+                  {[
+                    { icon: Calendar, text: `Duration: ${project.duration}` },
+                    { icon: Layers, text: `Architecture: ${project.architecture}` },
+                    { icon: Zap, text: `State Management: ${project.stateManagement}` }
+                  ].map((item, index) => (
+                    <motion.li
+                      key={index}
+                      className="flex items-start"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.1 }}
+                    >
+                      <item.icon className="w-5 h-5 mr-3 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-1" />
+                      <span className="text-gray-700 dark:text-gray-300">{item.text}</span>
+                    </motion.li>
+                  ))}
+                </ul>
+              </div>
             </motion.div>
-          </AnimatePresence>
+            <motion.div
+              className="relative h-[600px]"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+            >
+              <div className="absolute inset-0 flex items-center justify-center">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={activeMockup}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.8 }}
+                    transition={{ duration: 0.5 }}
+                    className="w-64 h-[500px] rounded-3xl shadow-2xl overflow-hidden"
+                  >
+                    <Image
+                      src={project.mockups[activeMockup]}
+                      alt={`${project.title} mockup ${activeMockup + 1}`}
+                      layout="fill"
+                      objectFit="cover"
+                      className="rounded-3xl"
+                    />
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+              <button
+                onClick={prevMockup}
+                className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white/80 dark:bg-gray-800/80 p-2 rounded-full shadow-md"
+                aria-label="Previous mockup"
+              >
+                <ChevronLeft className="w-6 h-6 text-gray-800 dark:text-gray-200" />
+              </button>
+              <button
+                onClick={nextMockup}
+                className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white/80 dark:bg-gray-800/80 p-2 rounded-full shadow-md"
+                aria-label="Next mockup"
+              >
+                <ChevronRight className="w-6 h-6 text-gray-800 dark:text-gray-200" />
+              </button>
+            </motion.div>
+          </div>
 
           <motion.div
-            className="mt-12 flex flex-col sm:flex-row justify-center items-center gap-4"
+            className="mb-16"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
+          >
+            <h2 className="text-3xl font-bold mb-8 text-center">Key Features</h2>
+            <div className="grid md:grid-cols-3 gap-6">
+              {[
+                { icon: Users, title: 'Multiplayer Fun', description: 'Play with friends and family for an exciting group experience.' },
+                { icon: Star, title: 'Diverse Challenges', description: 'Wide variety of questions and tasks to keep the game fresh and entertaining.' },
+                { icon: Gamepad, title: 'Easy to Play', description: 'Simple rules and intuitive interface for players of all ages.' },
+              ].map((feature, index) => (
+                <motion.div
+                  key={index}
+                  className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                >
+                  <feature.icon className="w-12 h-12 mb-4 text-blue-600 dark:text-blue-400" />
+                  <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
+                  <p className="text-gray-600 dark:text-gray-400">{feature.description}</p>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+
+          <motion.div
+            className="flex flex-col sm:flex-row justify-center items-center gap-4"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.8 }}
           >
             <motion.a
               href={project.appStore}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full sm:w-auto inline-flex justify-center items-center bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl"
+              className="w-full sm:w-auto inline-flex justify-center items-center bg-blue-600 text-white px-8 py-4 rounded-xl hover:bg-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -209,7 +218,7 @@ export default function ProjectDetails() {
               href={project.playStore}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full sm:w-auto inline-flex justify-center items-center bg-gradient-to-r from-green-600 to-teal-600 text-white px-8 py-4 rounded-xl hover:from-green-700 hover:to-teal-700 transition-all duration-300 shadow-lg hover:shadow-xl"
+              className="w-full sm:w-auto inline-flex justify-center items-center bg-green-600 text-white px-8 py-4 rounded-xl hover:bg-green-700 transition-all duration-300 shadow-lg hover:shadow-xl"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
