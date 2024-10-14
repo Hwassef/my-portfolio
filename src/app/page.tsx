@@ -7,7 +7,6 @@ import confetti from 'canvas-confetti'
 import Image from 'next/image'
 import Link from 'next/link'
 import { SiGoogleplay, SiAppstore } from 'react-icons/si'
-import { useTranslations } from 'next-intl';
 
 interface Skill {
   name: string;
@@ -87,23 +86,17 @@ export default function Component() {
     { name: 'Cross-platform', icon: <Layers className="w-6 h-6" /> },
     { name: 'App Store', icon: <Globe className="w-6 h-6" /> },
   ]
-  const dukhan = useTranslations('projects.dukhan_bank');
-  const digitrame = useTranslations('projects.digitrame');
-  const headsapp = useTranslations('projects.headsapp');
-  const proximityStore = useTranslations('projects.proximity_store');
-  const swipeColorGame = useTranslations('projects.swipe_color_game');
-  const leJeuQui = useTranslations('projects.le_jeu_qui');
 
   const projects: Project[] = [
     {
       id: "dukhanbank",
       title: 'DukhanBank',
-      description: dukhan('description'),
+      description: 'Bank easily with secure login, instant transfers, bill payments, and more, all 24/7.',
       image: '/ic_app_icon.svg',
       mockup: '/ic_app_icon.svg',
       appStore: 'https://apps.apple.com/us/app/dukhan-mobile/id817391995',
       playStore: 'https://play.google.com/store/apps/details?id=com.Barwa&hl=en',
-      duration: dukhan('duration'),
+      duration: '6 months',
       techStack: ['Flutter', 'Dart', 'Firebase'],
       architecture: 'Clean Architecture',
       stateManagement: 'BLoC',
@@ -111,11 +104,11 @@ export default function Component() {
     {
       id: "digitrame",
       title: 'Digitrame',
-      description: digitrame('description'),
+      description: 'Manage quotes, invoices, and inventory with ease, designed for freelancers and small businesses.',
       image: '/digitrame.jpg',
       mockup: '/digitrame.jpg',
       appStore: 'https://apps.apple.com/fr/app/digitrame/id1494623897',
-      duration: digitrame('duration'),
+      duration: '4 months',
       techStack: ['Flutter', 'Dart', 'SQLite'],
       architecture: 'MVVM',
       stateManagement: 'Provider',
@@ -123,12 +116,12 @@ export default function Component() {
     {
       id: "headsapp",
       title: 'HeadsApp',
-      description: headsapp('description'),
+      description: 'Secure messaging for healthcare professionals to streamline consultations and patient care.',
       image: '/headsapp.png',
       mockup: '/headsapp.png',
       appStore: 'https://apps.apple.com/us/app/headsapp/id1568508905',
       playStore: 'https://play.google.com/store/apps/details?id=com.TechAngela.HeadsApp&hl=fr&gl=US',
-      duration: headsapp('duration'),
+      duration: '5 months',
       techStack: ['Flutter', 'Dart', 'Firebase'],
       architecture: 'Clean Architecture',
       stateManagement: 'Riverpod',
@@ -136,12 +129,12 @@ export default function Component() {
     {
       id: "proximitystore",
       title: 'ProximityStore',
-      description: proximityStore('description'),
+      description: 'Find local deals and support nearby businesses with personalized shopping recommendations.',
       image: '/proximitystore.png',
       mockup: '/proximitystore.png',
       appStore: 'https://apps.apple.com/fr/app/proximitystore/id1612459998?l=en',
       playStore: 'https://play.google.com/store/apps/details?id=com.proximitystore.app',
-      duration: proximityStore('duration'),
+      duration: '3 months',
       techStack: ['Flutter', 'Dart', 'Firebase'],
       architecture: 'MVC',
       stateManagement: 'GetX',
@@ -149,12 +142,12 @@ export default function Component() {
     {
       id: "swipecolorgame",
       title: 'Swipe Color Game',
-      description: swipeColorGame('description'),
+      description: 'Swipe based on color cues and compete globally in this fun, challenging game.',
       image: '/swipe_color.png',
       mockup: '/swipe_color.png',
       appStore: 'https://apps.apple.com/us/app/swipe-color-game/id1522599744',
       playStore: 'https://play.google.com/store/apps/details?id=com.impactmsg.swipecolorgame',
-      duration: swipeColorGame('duration'),
+      duration: '2 months',
       techStack: ['Flutter', 'Dart'],
       architecture: 'Simple Architecture',
       stateManagement: 'setState',
@@ -162,12 +155,12 @@ export default function Component() {
     {
       id: "lejeugui",
       title: 'Le Jeu Qui',
-      description: leJeuQui('description'),
+      description: 'A fun party game with trivia and challenges, perfect for social gatherings.',
       image: '/le_jeu_qui.png',
       mockup: '/le_jeu_qui.png',
       appStore: 'https://apps.apple.com/us/app/le-jeu-qui/id6448712204',
       playStore: 'https://play.google.com/store/apps/details?id=com.lejeuqui',
-      duration: leJeuQui('duration'),
+      duration: '3 months',
       techStack: ['Flutter', 'Dart', 'Firebase'],
       architecture: 'MVVM',
       stateManagement: 'MobX',
