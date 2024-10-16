@@ -7,7 +7,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 const project = {
-  id: "lejeugui",
+  id: "lejeuqui",
   title: 'Le Jeu Qui',
   description: 'Le jeu qui... permet de passer une soirée délirante entre amis ou en famille !',
   image: '/le_jeu_qui.png',

@@ -153,7 +153,7 @@ export default function Component() {
       stateManagement: 'setState',
     },
     {
-      id: "lejeugui",
+      id: "lejeuqui",
       title: 'Le Jeu Qui',
       description: 'A fun party game with trivia and challenges, perfect for social gatherings.',
       image: '/le_jeu_qui.png',
