@@ -417,9 +417,12 @@ export default function Component() {
                   transition={{ duration: 0.5 }}
                 >
                   <p className="text-lg mb-4">
-                    I'm a passionate Flutter developer with 5 years of experience in creating beautiful,
-                    high-performance mobile applications. My expertise lies in crafting intuitive user
-                    interfaces and implementing complex features with clean, maintainable code.
+                    Passionate Flutter developer with over 3 years of experience,
+                    specializing in user-centered design and mobile app performance optimization.
+                    With a deep understanding of mobile development best practices,
+                    I strive to create intuitive and high-performance user experiences.
+                    Versatile and constantly keeping up with the latest trends,
+                    I adapt to project requirements to deliver innovative and effective solutions..
                   </p>
                   <p className="text-lg">
                     When I'm not coding, you can find me exploring new technologies, contributing to
