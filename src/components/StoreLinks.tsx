@@ -1,4 +1,4 @@
-import { Globe } from 'lucide-react'
+import { Globe, Store } from 'lucide-react'
 import { SiAppstore, SiGoogleplay } from 'react-icons/si'
 import type { Project } from '@/data/site'
 
@@ -15,6 +15,11 @@ export default function StoreLinks({ project }: { project: Project }) {
         {project.playStore && (
           <a href={project.playStore} target="_blank" rel="noopener noreferrer" className="btn btn-paper" aria-label={`${project.title} on Google Play`}>
             <SiGoogleplay className="h-4 w-4" /> Google Play
+          </a>
+        )}
+        {project.appGallery && (
+          <a href={project.appGallery} target="_blank" rel="noopener noreferrer" className="btn btn-paper" aria-label={`${project.title} on Huawei AppGallery`}>
+            <Store className="h-4 w-4" /> AppGallery
           </a>
         )}
         {project.website && (

@@ -165,6 +165,7 @@ export type Project = {
   appStore?: string
   playStore?: string
   website?: string
+  appGallery?: string
   /** stores without a link we can verify, e.g. Huawei AppGallery */
   alsoOn?: string
 }
@@ -307,8 +308,9 @@ export const projects: Project[] = [
       { title: 'Hosted payments', body: 'ClicToPay card payment pages with success, failure and cancellation reconciled server-side.' },
       { title: 'Secure sessions', body: 'Keycloak authentication with token-based sessions, connectivity checks and robust API error handling.' },
     ],
-    appStore: 'https://apps.apple.com/app/my-tt/id1351050951',
-    alsoOn: 'Google Play and Huawei AppGallery',
+    appStore: 'https://apps.apple.com/tn/app/my-tt/id1351050951',
+    playStore: 'https://play.google.com/store/apps/details?id=com.tunisietelecom.selfcare',
+    appGallery: 'https://appgallery.huawei.com/app/C101380003',
   },
   {
     slug: 'dukhanbank',
