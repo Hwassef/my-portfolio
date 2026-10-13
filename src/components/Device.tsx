@@ -31,7 +31,7 @@ export default function Device({
   return (
     <div
       className={`relative overflow-hidden ${
-        shot.bare ? 'border-2 border-ink bg-paper' : 'border-[6px] border-ink bg-ink'
+        shot.bare ? 'border-2 border-[#0a0a0a] bg-white' : 'border-[6px] border-[#0a0a0a] bg-[#0a0a0a]'
       } shadow-[8px_8px_0_var(--ink)] ${
         isPhone ? (shot.bare ? 'rounded-xl' : 'aspect-[9/19.5] rounded-[2rem]') : 'aspect-[4/3] rounded-2xl'
       } ${className}`}

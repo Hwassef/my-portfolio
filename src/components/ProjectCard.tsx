@@ -2,12 +2,13 @@ import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
 import Device from './Device'
 import type { Project } from '@/data/site'
+import { dict, href, type Lang } from '@/i18n'
 
-export default function ProjectCard({ project, index, large = false }: { project: Project; index: number; large?: boolean }) {
+export default function ProjectCard({ project, index, lang, large = false }: { project: Project; index: number; lang: Lang; large?: boolean }) {
   const { cover } = project
   return (
     <Link
-      href={`/project/${project.slug}`}
+      href={href(lang, `/project/${project.slug}`)}
       className="group flex h-full flex-col border-2 border-ink bg-paper transition-[transform,box-shadow] duration-200 hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[8px_8px_0_var(--ink)]"
     >
       <div
@@ -29,7 +30,7 @@ export default function ProjectCard({ project, index, large = false }: { project
           </div>
         )}
         <span className="display absolute left-4 top-3 text-2xl">{String(index + 1).padStart(2, '0')}</span>
-        {project.status && <span className="chip absolute right-4 top-4 bg-ink text-yellow">{project.status}</span>}
+        {project.status && <span className="chip absolute right-4 top-4 border-[#0a0a0a] bg-[#0a0a0a] text-[#ffd60a]">{project.status}</span>}
       </div>
 
       <div className="flex flex-1 flex-col gap-3 p-5">
@@ -40,9 +41,9 @@ export default function ProjectCard({ project, index, large = false }: { project
         <p className="text-muted">{project.tagline} {large && project.description}</p>
         <div className="mt-auto flex flex-wrap gap-2 pt-2">
           {project.group === 'product' ? (
-            <span className="chip border-ink bg-yellow">Own product</span>
+            <span className="chip border-ink bg-yellow">{dict[lang].work.own}</span>
           ) : (
-            project.client && <span className="chip">{project.client.replace(/^Proxym Group for /, '')}</span>
+            project.client && <span className="chip">{project.client.replace(/^Proxym Group (for|pour) /, '')}</span>
           )}
           <span className="chip">{project.category}</span>
           <span className="chip">{project.year}</span>

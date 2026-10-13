@@ -6,7 +6,9 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 import Device from './Device'
 import type { Shot } from '@/data/site'
 
-export default function Gallery({ shots, title }: { shots: Shot[]; title: string }) {
+type Labels = { prev: string; next: string; show: string }
+
+export default function Gallery({ shots, title, labels }: { shots: Shot[]; title: string; labels: Labels }) {
   const [active, setActive] = useState(0)
   const go = (d: number) => setActive((a) => (a + d + shots.length) % shots.length)
   const shot = shots[active]
@@ -29,10 +31,10 @@ export default function Gallery({ shots, title }: { shots: Shot[]; title: string
         </div>
         {shots.length > 1 && (
           <>
-            <button onClick={() => go(-1)} className="btn btn-paper absolute left-3 top-1/2 !p-2 -translate-y-1/2" aria-label="Previous screenshot">
+            <button onClick={() => go(-1)} className="btn btn-paper absolute left-3 top-1/2 !p-2 -translate-y-1/2" aria-label={labels.prev}>
               <ChevronLeft className="h-5 w-5" />
             </button>
-            <button onClick={() => go(1)} className="btn btn-paper absolute right-3 top-1/2 !p-2 -translate-y-1/2" aria-label="Next screenshot">
+            <button onClick={() => go(1)} className="btn btn-paper absolute right-3 top-1/2 !p-2 -translate-y-1/2" aria-label={labels.next}>
               <ChevronRight className="h-5 w-5" />
             </button>
             <span className="chip absolute bottom-3 left-3 border-ink bg-paper" aria-live="polite">
@@ -48,7 +50,7 @@ export default function Gallery({ shots, title }: { shots: Shot[]; title: string
             <button
               key={s.src}
               onClick={() => setActive(i)}
-              aria-label={`Show screenshot ${i + 1}`}
+              aria-label={`${labels.show} ${i + 1}`}
               aria-current={i === active}
               className={`relative shrink-0 overflow-hidden border-2 border-ink bg-paper-2 ${
                 s.kind === 'phone' ? 'h-24 w-12' : 'h-16 w-24'

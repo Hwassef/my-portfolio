@@ -10,6 +10,45 @@
   --yellow: #ffd60a;
   --muted: #6b6b6b;
   --line: #e7e7e3;
+  --swoosh: var(--yellow);
+  color-scheme: light;
+}
+
+/* Dark theme: ink and paper swap. Set on <html> by the inline script in the layout. */
+:root[data-theme='dark'] {
+  --ink: #f5f5f2;
+  --ink-2: #e5e5e0;
+  --paper: #0a0a0a;
+  --paper-2: #131313;
+  --muted: #a3a3a3;
+  --line: #2a2a2a;
+  --swoosh: rgba(255, 214, 10, 0.4);
+  color-scheme: dark;
+}
+
+/* Inverted bands (About, features, footer): dark in light mode, a raised dark in dark mode. */
+.on-ink {
+  --line: rgba(255, 255, 255, 0.18);
+  --muted: #a3a3a3;
+  --swoosh: rgba(255, 214, 10, 0.55);
+}
+:root[data-theme='dark'] .on-ink {
+  --ink: #171717;
+  --paper: #f5f5f2;
+}
+
+/* Yellow surfaces always carry dark ink, whatever the theme. */
+.on-yellow,
+.btn-yellow {
+  --ink: #0a0a0a;
+  --paper: #ffffff;
+  --muted: #3d3d3d;
+  --line: rgba(10, 10, 10, 0.2);
+  --swoosh: rgba(10, 10, 10, 0.16);
+  color: var(--ink);
+}
+.bg-yellow {
+  color: #0a0a0a;
 }
 
 html {
@@ -91,6 +130,25 @@ body {
   }
   .chip {
     @apply inline-flex items-center border border-current px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider;
+  }
+  /* soft brush stroke under a heading */
+  .swoosh {
+    position: relative;
+    display: inline-block;
+    isolation: isolate;
+  }
+  .swoosh::after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    left: -0.1em;
+    right: -0.35em;
+    bottom: 0.02em;
+    height: 0.42em;
+    background: linear-gradient(100deg, transparent 0%, var(--swoosh) 16%, var(--swoosh) 74%, transparent 100%);
+    border-radius: 999px 60% 999px 40%;
+    transform: rotate(-2deg) skewX(-18deg);
+    filter: blur(2px);
   }
   .stripe {
     background: repeating-linear-gradient(-45deg, var(--yellow) 0 14px, var(--ink) 14px 28px);
