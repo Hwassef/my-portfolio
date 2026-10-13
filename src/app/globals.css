@@ -3,25 +3,131 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --ink: #0a0a0a;
+  --ink-2: #1a1a1a;
+  --paper: #ffffff;
+  --paper-2: #f5f5f2;
+  --yellow: #ffd60a;
+  --muted: #6b6b6b;
+  --line: #e7e7e3;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+::selection {
+  background: var(--yellow);
+  color: var(--ink);
+}
+
+:focus-visible {
+  outline: 3px solid var(--yellow);
+  outline-offset: 3px;
+}
+
+.skip {
+  position: absolute;
+  left: -999px;
+  top: 0.5rem;
+  z-index: 100;
+  background: var(--yellow);
+  padding: 0.5rem 1rem;
+  font-weight: 700;
+}
+.skip:focus {
+  left: 0.5rem;
+}
+
+@layer components {
+  .display {
+    font-family: var(--font-display), Impact, sans-serif;
+    text-transform: uppercase;
+    line-height: 0.92;
+    letter-spacing: -0.005em;
+  }
+  .eyebrow {
+    @apply text-xs font-bold uppercase tracking-[0.18em];
+  }
+  .wrap {
+    @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
+  }
+  .btn {
+    @apply inline-flex items-center gap-2 border-2 border-ink px-5 py-3 text-sm font-bold uppercase tracking-wider transition-[transform,box-shadow] duration-150;
+    box-shadow: 4px 4px 0 var(--ink);
+  }
+  .btn:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 var(--ink);
+  }
+  .btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0 var(--ink);
+  }
+  .btn-yellow {
+    @apply bg-yellow text-ink;
+  }
+  .btn-ink {
+    @apply bg-ink text-paper;
+  }
+  .btn-paper {
+    @apply bg-paper text-ink;
+  }
+  /* on dark grounds the hard shadow flips to yellow */
+  .on-ink .btn {
+    @apply border-yellow;
+    box-shadow: 4px 4px 0 var(--yellow);
+  }
+  .on-ink .btn:hover {
+    box-shadow: 6px 6px 0 var(--yellow);
+  }
+  .chip {
+    @apply inline-flex items-center border border-current px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider;
+  }
+  .stripe {
+    background: repeating-linear-gradient(-45deg, var(--yellow) 0 14px, var(--ink) 14px 28px);
+  }
+}
+
+/* scroll reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.reveal.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* ticker */
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+.marquee {
+  animation: marquee 40s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .marquee {
+    animation: none;
   }
 }
