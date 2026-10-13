@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import { Anton, Archivo } from 'next/font/google'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
+import ServiceWorker from '@/components/ServiceWorker'
 import { profile } from '@/data/site'
 import { dict, href, isLang, langs, type Lang } from '@/i18n'
 import './globals.css'
@@ -22,7 +23,9 @@ export function generateMetadata({ params }: Props): Metadata {
     metadataBase: new URL(profile.site),
     title: { default: t.title, template: '%s — Wassef Hassine' },
     description: t.description,
-    icons: { icon: '/favicon.ico' },
+    icons: { icon: '/favicon.ico', apple: '/icons/apple-touch-icon.png' },
+    manifest: '/manifest.webmanifest',
+    appleWebApp: { capable: true, title: 'Wassef', statusBarStyle: 'black-translucent' },
     openGraph: {
       type: 'website',
       url: href(lang),
@@ -72,6 +75,7 @@ export default function RootLayout({ children, params }: Props) {
         <Nav lang={lang} />
         <main id="main">{children}</main>
         <Footer lang={lang} />
+        <ServiceWorker lang={lang} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personLd) }} />
       </body>
     </html>

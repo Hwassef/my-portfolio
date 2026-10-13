@@ -25,7 +25,7 @@ export default function Gallery({ shots, title, labels }: { shots: Shot[]; title
         if (e.key === 'ArrowLeft') go(-1)
       }}
     >
-      <div className={`relative flex items-center justify-center border-2 border-ink bg-yellow ${isPhone ? 'px-16 py-10' : 'p-0'}`}>
+      <div className={`on-yellow relative flex items-center justify-center border-2 border-ink bg-yellow ${isPhone ? 'px-16 py-10' : 'p-0'}`}>
         <div className={isPhone ? 'w-full max-w-[280px]' : 'w-full'}>
           <Device key={shot.src} shot={shot} sizes={isPhone ? '280px' : '(min-width: 1024px) 60vw, 100vw'} priority={active === 0} />
         </div>

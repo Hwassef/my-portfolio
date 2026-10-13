@@ -1,5 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // images are pre-compressed in public/; plain URLs let the service worker cache them for offline use
+  images: { unoptimized: true },
   async redirects() {
     return [
       // the old Le Jeu Qui page lived at a misspelt path
