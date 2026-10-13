@@ -39,7 +39,11 @@ export default function ProjectCard({ project, index, large = false }: { project
         </div>
         <p className="text-muted">{project.tagline} {large && project.description}</p>
         <div className="mt-auto flex flex-wrap gap-2 pt-2">
-          <span className={`chip ${project.owner === 'WeCraft product' ? 'border-ink bg-yellow' : ''}`}>{project.owner}</span>
+          {project.group === 'product' ? (
+            <span className="chip border-ink bg-yellow">Own product</span>
+          ) : (
+            project.client && <span className="chip">{project.client.replace(/^Proxym Group for /, '')}</span>
+          )}
           <span className="chip">{project.category}</span>
           <span className="chip">{project.year}</span>
         </div>

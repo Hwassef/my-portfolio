@@ -35,12 +35,12 @@ export default function ProjectPage({ params }: Props) {
   const next = projects[(i + 1) % projects.length]
 
   const facts = [
-    { label: 'Role', value: project.owner === 'WeCraft product' ? 'Founder · design & build' : 'Flutter developer' },
-    { label: 'Year', value: project.year },
-    ...(project.duration ? [{ label: 'Duration', value: project.duration }] : []),
+    { label: 'Role', value: project.role },
+    { label: project.group === 'product' ? 'Studio' : 'For', value: project.client ?? 'WeCraft Solutions' },
+    { label: project.period ? 'Period' : 'Year', value: project.period ?? project.year },
     { label: 'Architecture', value: project.architecture },
     { label: 'State', value: project.state },
-  ]
+  ].filter((f): f is { label: string; value: string } => Boolean(f.value))
 
   return (
     <article className="pt-24">
@@ -57,7 +57,7 @@ export default function ProjectPage({ params }: Props) {
               <Image src={project.icon} alt="" width={64} height={64} className="h-16 w-16 border-2 border-ink bg-paper object-contain" />
             )}
             <div className="flex flex-wrap gap-2">
-              <span className={`chip ${project.owner === 'WeCraft product' ? 'border-ink bg-yellow' : ''}`}>{project.owner}</span>
+              {project.group === 'product' && <span className="chip border-ink bg-yellow">Own product</span>}
               <span className="chip">{project.category}</span>
               {project.status && <span className="chip bg-ink text-yellow">{project.status}</span>}
             </div>

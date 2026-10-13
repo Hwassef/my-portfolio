@@ -9,17 +9,17 @@ const display = Anton({ weight: '400', subsets: ['latin'], variable: '--font-dis
 const body = Archivo({ subsets: ['latin'], variable: '--font-body', display: 'swap' })
 
 const description =
-  'Wassef Hassine — Flutter engineer and founder of WeCraft Solutions. 5+ years shipping iOS & Android apps in fintech, healthcare, retail and games.'
+  'Wassef Hassine — Flutter Tech Lead and founder of WeCraft Solutions. 4+ years shipping iOS, Android and web apps for fintech, telecom, hospitality and retail.'
 
 export const metadata: Metadata = {
   metadataBase: new URL(profile.site),
-  title: { default: 'Wassef Hassine — Flutter engineer', template: '%s — Wassef Hassine' },
+  title: { default: 'Wassef Hassine — Flutter Tech Lead', template: '%s — Wassef Hassine' },
   description,
   openGraph: {
     type: 'website',
     url: profile.site,
     siteName: 'Wassef Hassine',
-    title: 'Wassef Hassine — Flutter engineer',
+    title: 'Wassef Hassine — Flutter Tech Lead',
     description,
     images: [{ url: '/work/headsapp_mockups.jpg', width: 1600, height: 1200 }],
   },
@@ -33,7 +33,7 @@ const personLd = {
   '@context': 'https://schema.org',
   '@type': 'Person',
   name: profile.name,
-  jobTitle: 'Flutter engineer',
+  jobTitle: profile.title,
   url: profile.site,
   email: `mailto:${profile.email}`,
   worksFor: { '@type': 'Organization', name: 'WeCraft Solutions', url: profile.studio },

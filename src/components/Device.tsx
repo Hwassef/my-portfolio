@@ -33,8 +33,9 @@ export default function Device({
       className={`relative overflow-hidden ${
         shot.bare ? 'border-2 border-ink bg-paper' : 'border-[6px] border-ink bg-ink'
       } shadow-[8px_8px_0_var(--ink)] ${
-        isPhone ? (shot.bare ? 'aspect-[1200/2596] rounded-xl' : 'aspect-[9/19.5] rounded-[2rem]') : 'aspect-[4/3] rounded-2xl'
+        isPhone ? (shot.bare ? 'rounded-xl' : 'aspect-[9/19.5] rounded-[2rem]') : 'aspect-[4/3] rounded-2xl'
       } ${className}`}
+      style={shot.bare ? { aspectRatio: `${shot.w} / ${shot.h}` } : undefined}
     >
       <Image
         src={shot.src}
