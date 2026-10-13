@@ -6,9 +6,10 @@ export const isLang = (v: string): v is Lang => (langs as readonly string[]).inc
 /** English lives at the root, French under /fr. */
 export const href = (lang: Lang, path = '/') => (lang === 'en' ? path : path === '/' ? '/fr' : `/fr${path}`)
 
-/** The same page in the other language. */
+/** The same page in the other language. Strips /en too: English pages are rewritten from
+ * /en internally, and usePathname can report that internal path instead of the visible URL. */
 export const switchPath = (pathname: string, to: Lang) => {
-  const bare = pathname.replace(/^\/fr(?=\/|$)/, '') || '/'
+  const bare = pathname.replace(/^\/(en|fr)(?=\/|$)/, '') || '/'
   return href(to, bare)
 }
 
