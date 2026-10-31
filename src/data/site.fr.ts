@@ -70,6 +70,24 @@ export const projectsFr: Record<string, ProjectFr> = {
       { title: 'Sessions sécurisées', body: "Authentification Keycloak par jetons, contrôles de connectivité et gestion robuste des erreurs d'API." },
     ],
   },
+  flydelivery: {
+    tagline: 'Trois apps, un seul réseau de livraison.',
+    description:
+      "Un écosystème de livraison à la demande en trois apps pour la Tunisie : une app client pour les repas, les courses et les colis, une app livreur et une app fournisseur pour restaurants et commerces, synchronisées en temps réel.",
+    category: 'Livraison · Logistique',
+    client: 'FlyDelivery · Tunisie',
+    role: 'Lead développeur Flutter',
+    period: '2 ans',
+    stack: ['Flutter', 'Firebase Realtime DB', 'FCM', 'Google Maps SDK', 'Socket.io', 'Dio', 'Hive', 'Codemagic'],
+    architecture: 'Clean Architecture · module core partagé',
+    features: [
+      { title: 'Trois apps, un seul core', body: 'Apps client, livreur et fournisseur dans un monorepo modulaire partageant environ 70 % du code : modèles, logique métier et utilitaires.' },
+      { title: 'Suivi et itinéraires en direct', body: 'Position du livreur en temps réel via Firebase et sockets, géofencing des zones, tarification selon la distance et GPS en arrière-plan économe en batterie.' },
+      { title: 'Outils livreur et fournisseur', body: 'Gains, historique et disponibilités pour les livreurs avec affectation automatique ; gestion des commandes, menus et stocks pour les fournisseurs.' },
+      { title: 'Chat, push et paiements', body: 'Chat client–livreur avec photos et indicateur de saisie, notifications FCM ciblées, cartes, portefeuilles et paiement à la livraison.' },
+      { title: 'Un pipeline, trois releases', body: 'Un pipeline Codemagic publie les trois apps ensemble : la coordination des releases passe de plusieurs jours à quelques heures.' },
+    ],
+  },
   dukhanbank: {
     tagline: 'Banque digitale, Qatar.',
     description:

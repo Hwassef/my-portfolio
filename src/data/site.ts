@@ -120,11 +120,11 @@ export const languages = ['Arabic (native)', 'French (fluent)', 'English (fluent
 export const skills: { group: string; items: string[] }[] = [
   { group: 'Mobile', items: ['Flutter / Dart', 'Swift', 'Java', 'Kotlin'] },
   { group: 'Architecture', items: ['Clean Architecture', 'Modular', 'MVVM / MVVMC / MVC', 'Feature flags', 'Config-driven builds'] },
-  { group: 'State & async', items: ['BLoC', 'Provider', 'Riverpod', 'MobX', 'Streams', 'WebSockets'] },
+  { group: 'State & async', items: ['BLoC', 'Provider', 'Riverpod', 'MobX', 'Streams', 'WebSockets', 'Socket.io'] },
   { group: 'Auth & payments', items: ['Keycloak / OAuth2', 'Biometrics', 'WebView ↔ Dart channels', 'Deep links', 'Stripe & 3-D Secure', 'ClicToPay', 'StoreKit / RevenueCat'] },
   { group: 'Multi-brand & i18n', items: ['Flavors', 'Per-flavor Firebase', 'Config-driven theming', 'EN / FR / AR with RTL'] },
-  { group: 'Backend & data', items: ['REST / JSON', 'Firebase', 'SQLite', 'Realm', 'NestJS', 'GraphQL', 'Supabase'] },
-  { group: 'DevOps & CI/CD', items: ['GitHub Actions', 'GitLab', 'Fastlane', 'Tag-based deploys', 'App Store Connect', 'Play Console', 'AppGallery'] },
+  { group: 'Backend & data', items: ['REST / JSON', 'Firebase', 'Google Maps & geofencing', 'SQLite', 'Hive', 'Realm', 'NestJS', 'GraphQL', 'Supabase'] },
+  { group: 'DevOps & CI/CD', items: ['GitHub Actions', 'GitLab', 'Codemagic', 'Fastlane', 'Tag-based deploys', 'App Store Connect', 'Play Console', 'AppGallery'] },
   { group: 'Testing', items: ['Unit, widget & integration', 'Mockito', 'DevTools profiling'] },
 ]
 
@@ -285,6 +285,34 @@ export const projects: Project[] = [
   },
 
   // ── client & employer work ─────────────────────────────────────
+  {
+    slug: 'flydelivery',
+    title: 'FlyDelivery',
+    tagline: 'Three apps, one delivery network.',
+    description:
+      'A three-app on-demand delivery ecosystem for Tunisia: a customer app for food, groceries and parcels, a courier app for delivery partners and a supplier app for restaurants and shops, all synchronised in real time.',
+    category: 'Delivery · Logistics',
+    year: '2024',
+    group: 'client',
+    client: 'FlyDelivery · Tunisia',
+    role: 'Lead Flutter developer',
+    period: '2 years',
+    icon: '/work/flydelivery_icon.jpg',
+    cover: phone('/work/flydelivery_1.jpg', 'FlyDelivery customer app home', 600, 1298),
+    shots: [1, 2, 3, 4].map((n) => phone(`/work/flydelivery_${n}.jpg`, `FlyDelivery screen ${n}`, 600, 1298)),
+    stack: ['Flutter', 'Firebase Realtime DB', 'FCM', 'Google Maps SDK', 'Socket.io', 'Dio', 'Hive', 'Codemagic'],
+    architecture: 'Clean Architecture · shared core module',
+    state: 'BLoC + Riverpod',
+    features: [
+      { title: 'Three apps, one core', body: 'Customer, courier and supplier apps in a modular monorepo sharing ~70% of their code: models, business logic and utilities.' },
+      { title: 'Live tracking & routing', body: 'Real-time courier location over Firebase and sockets, delivery-zone geofencing, distance-based pricing and battery-efficient background GPS.' },
+      { title: 'Courier & supplier tools', body: 'Earnings, history and availability for couriers with automated assignment; order, menu and inventory management for suppliers.' },
+      { title: 'Chat, push & payments', body: 'Customer–courier chat with photos and typing indicators, routed FCM notifications, cards, wallets and cash on delivery.' },
+      { title: 'One pipeline, three releases', body: 'A Codemagic pipeline ships all three apps together, turning release coordination from days into hours.' },
+    ],
+    appStore: 'https://apps.apple.com/tn/app/fly-delivery/id6502603819',
+    playStore: 'https://play.google.com/store/apps/details?id=tn.flydelivery.client',
+  },
   {
     slug: 'mytt',
     title: 'My TT',
