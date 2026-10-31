@@ -78,7 +78,7 @@ export default function Home({ params }: { params: { lang: Lang } }) {
       {/* WORK */}
       <section id="work" className="bg-paper-2 py-20 md:py-28">
         <div className="wrap">
-          <Reveal className="mb-12 flex flex-col justify-between gap-6 md:flex-row md:items-end">
+          <Reveal className="mb-12 flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
             <div>
               <p className="eyebrow mb-3">{t.work.eyebrow} · 2022 — {new Date().getFullYear()}</p>
               <h2 className="display text-6xl md:text-8xl"><span className="swoosh">{t.work.title}</span></h2>
@@ -143,7 +143,7 @@ export default function Home({ params }: { params: { lang: Lang } }) {
 
         <div className="wrap mt-16">
           <h3 className="display mb-6 text-4xl"><span className="swoosh">{t.about.toolbox}</span></h3>
-          <dl className="grid gap-x-10 border-t border-line md:grid-cols-2">
+          <dl className="grid gap-x-10 border-t border-line lg:grid-cols-2">
             {skills.map((g) => (
               <div key={g.group} className="grid gap-3 border-b border-line py-4 sm:grid-cols-[150px_1fr] sm:gap-4">
                 <dt className="eyebrow pt-1 text-yellow">{g.group}</dt>
@@ -167,7 +167,7 @@ export default function Home({ params }: { params: { lang: Lang } }) {
           </Reveal>
           <ol className="border-t-2 border-ink">
             {experience.map((e, i) => (
-              <Reveal as="li" key={`${e.company}-${e.period}`} className="grid gap-3 border-b-2 border-ink py-8 md:grid-cols-[200px_1fr_1.5fr] md:gap-8">
+              <Reveal as="li" key={`${e.company}-${e.period}`} className="grid gap-3 border-b-2 border-ink py-8 md:grid-cols-[170px_1fr] md:gap-x-8 md:gap-y-4 lg:grid-cols-[200px_1fr_1.5fr] lg:gap-8">
                 <span className={`display self-start text-xl md:text-2xl ${i < 2 ? 'w-fit bg-yellow px-2' : ''}`}>{e.period}</span>
                 <div>
                   <h3 className="display text-3xl md:text-4xl">
@@ -182,7 +182,7 @@ export default function Home({ params }: { params: { lang: Lang } }) {
                   <p className="mt-1 font-semibold">{e.role}</p>
                   {e.client && <p className="text-sm text-muted">{e.client}</p>}
                 </div>
-                <div>
+                <div className="md:col-start-2 lg:col-start-auto">
                   <ul className="list-disc space-y-2 pl-5 text-muted marker:text-ink">
                     {e.points.map((pt) => (
                       <li key={pt}>{pt}</li>
@@ -216,9 +216,9 @@ export default function Home({ params }: { params: { lang: Lang } }) {
             <p className="mt-6 max-w-xl text-lg">{t.contact.body}</p>
             <a
               href={`mailto:${profile.email}`}
-              className="display mt-10 block break-all text-3xl underline decoration-4 underline-offset-8 hover:decoration-8 sm:text-5xl"
+              className="display mt-10 block break-words text-[clamp(1.25rem,7vw,3rem)] underline decoration-4 underline-offset-8 hover:decoration-8"
             >
-              {profile.email}
+              {profile.email.split('@')[0]}@<wbr />{profile.email.split('@')[1]}
             </a>
             <div className="mt-10 flex flex-wrap gap-4">
               <a href={`mailto:${profile.email}`} className="btn btn-ink"><Mail className="h-4 w-4" /> {t.contact.email}</a>

@@ -56,6 +56,11 @@ html {
   scroll-padding-top: 5rem;
 }
 
+html,
+body {
+  overflow-x: clip;
+}
+
 body {
   background: var(--paper);
   color: var(--ink);

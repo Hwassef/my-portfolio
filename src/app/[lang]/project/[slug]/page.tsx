@@ -58,7 +58,7 @@ export default function ProjectPage({ params }: Props) {
         </Link>
       </div>
 
-      <header className="wrap grid gap-10 py-10 md:py-14 lg:grid-cols-[1fr_1.15fr] lg:items-start">
+      <header className="wrap grid gap-10 py-10 md:py-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] lg:items-start [&>*]:min-w-0">
         <div>
           <div className="mb-6 flex items-center gap-4">
             {project.icon && (
@@ -70,7 +70,7 @@ export default function ProjectPage({ params }: Props) {
               {project.status && <span className="chip border-[#0a0a0a] bg-[#0a0a0a] text-[#ffd60a]">{project.status}</span>}
             </div>
           </div>
-          <h1 className="display text-[clamp(3.5rem,9vw,7rem)]">{project.title}</h1>
+          <h1 className="display break-words text-[clamp(2.5rem,12vw,7rem)] lg:text-[clamp(3.5rem,7vw,7rem)]">{project.title}</h1>
           <p className="display mt-2 text-2xl text-muted md:text-3xl">{project.tagline}</p>
           <p className="mt-6 max-w-xl text-lg">{project.description}</p>
 
@@ -101,12 +101,13 @@ export default function ProjectPage({ params }: Props) {
         <section className="border-t-2 border-ink py-16 md:py-20">
           <div className="wrap">
             <h2 className="display mb-10 text-5xl md:text-6xl"><span className="swoosh">{t.project.apps}</span></h2>
-            <div className="grid gap-8 md:grid-cols-3">
+            <div className="grid gap-8 lg:grid-cols-3">
               {project.apps.map((app, n) => (
-                <Reveal key={app.name} delay={n * 100} className="flex flex-col border-2 border-ink bg-paper p-6">
-                  <div className="mb-6 flex h-[420px] justify-center">
+                <Reveal key={app.name} delay={n * 100} className="flex flex-col gap-6 border-2 border-ink bg-paper p-6 md:flex-row md:items-center lg:flex-col lg:items-stretch">
+                  <div className="flex h-[420px] shrink-0 justify-center md:w-[240px] lg:w-auto">
                     <Device shot={app.shot} sizes="240px" className="h-full w-auto" />
                   </div>
+                  <div className="flex flex-1 flex-col">
                   <p className="eyebrow text-muted">{app.audience}</p>
                   <h3 className="display mt-1 text-3xl">{app.name}</h3>
                   <ul className="mt-4 flex-1 space-y-2">
@@ -129,6 +130,7 @@ export default function ProjectPage({ params }: Props) {
                       </a>
                     )}
                   </div>
+                  </div>
                 </Reveal>
               ))}
             </div>
@@ -141,7 +143,11 @@ export default function ProjectPage({ params }: Props) {
           <h2 className="display mb-10 text-5xl md:text-6xl"><span className="swoosh">{t.project.features}</span></h2>
           <div className="grid gap-px border-2 border-line bg-line md:grid-cols-3">
             {project.features.map((f, n) => (
-              <Reveal key={f.title} delay={n * 100} className="bg-ink p-6 md:p-8">
+              <Reveal
+                key={f.title}
+                delay={n * 100}
+                className={`bg-ink p-6 md:p-8 ${n === project.features.length - 1 ? ["", "md:col-span-3", "md:col-span-2"][project.features.length % 3] : ""}`}
+              >
                 <span className="display text-5xl text-yellow">0{n + 1}</span>
                 <h3 className="display mt-4 text-3xl">{f.title}</h3>
                 <p className="mt-3 opacity-75">{f.body}</p>
@@ -153,9 +159,9 @@ export default function ProjectPage({ params }: Props) {
 
       <Link href={href(lang, `/project/${next.slug}`)} className="on-yellow group block border-b-2 border-ink bg-yellow">
         <div className="wrap flex items-center justify-between gap-6 py-12 md:py-16">
-          <div>
+          <div className="min-w-0">
             <p className="eyebrow mb-2">{t.project.next}</p>
-            <p className="display text-5xl md:text-8xl">{next.title}</p>
+            <p className="display break-words text-[clamp(2rem,9vw,6rem)]">{next.title}</p>
           </div>
           <ArrowRight className="h-12 w-12 shrink-0 transition-transform group-hover:translate-x-2 md:h-20 md:w-20" />
         </div>
