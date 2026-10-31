@@ -168,6 +168,18 @@ export type Project = {
   appGallery?: string
   /** stores without a link we can verify, e.g. Huawei AppGallery */
   alsoOn?: string
+  /** for multi-app products: one card per app */
+  apps?: SubApp[]
+}
+
+export type SubApp = {
+  name: string
+  /** who the app is for, e.g. "For couriers" */
+  audience: string
+  shot: Shot
+  points: string[]
+  appStore?: string
+  playStore?: string
 }
 
 const shots = (prefix: string, title: string, w: number, h: number, n = 4): Shot[] =>
@@ -182,6 +194,48 @@ const mytt = shots('mytt', 'My TT', 600, 1067)
 const studio44 = shots('studio44', 'Studio 44', 600, 1300)
 const maison = shots('maisonsolidaire', 'Maison Solidaire', 600, 1299)
 const facture = shots('facturesolidaire', 'Facture Solidaire', 600, 1299)
+const flyCustomer = [1, 2, 3, 4].map((n) => phone(`/work/flydelivery_${n}.jpg`, `FlyDelivery customer app screen ${n}`, 600, 1298))
+const flyCourier = shots('flydelivery_courier', 'FlyDelivery courier app', 432, 768)
+const flySupplier = shots('flydelivery_supplier', 'FlyDelivery supplier app', 600, 1067)
+
+/** FlyDelivery's three apps; the French file overlays the text by index. */
+export const flyApps: SubApp[] = [
+  {
+    name: 'Fly Delivery',
+    audience: 'For customers',
+    shot: flyCustomer[0],
+    points: [
+      'Order food, groceries and parcels with live courier tracking on the map.',
+      'Cards, wallets and cash on delivery, with in-app chat with the courier.',
+      'Arabic-first RTL UI with a rewards wheel and Fly coins loyalty.',
+    ],
+    appStore: 'https://apps.apple.com/tn/app/fly-delivery/id6502603819',
+    playStore: 'https://play.google.com/store/apps/details?id=tn.flydelivery.client',
+  },
+  {
+    name: 'Fly Delivery Livreur',
+    audience: 'For couriers',
+    shot: flyCourier[1],
+    points: [
+      'One switch to go online and receive automatically assigned deliveries.',
+      'Turn-by-turn route from restaurant to customer with background GPS.',
+      'Step-by-step order status, delivery history and earnings.',
+    ],
+    playStore: 'https://play.google.com/store/apps/details?id=tn.flydelivery.livreur',
+  },
+  {
+    name: 'Fly Delivery Restaurant',
+    audience: 'For suppliers',
+    shot: flySupplier[0],
+    points: [
+      'Accept or refuse incoming orders and follow them through preparation.',
+      'Menu and product management with supplements and pricing.',
+      'Monthly dashboard: revenue, orders, customers and best sellers.',
+    ],
+    playStore: 'https://play.google.com/store/apps/details?id=tn.flydelivery.supplier',
+  },
+]
+
 const sayso = ['1_gameplay', '2_solved', '3_worlds', '5_daily'].map((s, i): Shot => ({
   src: `/work/sayso_${s}.jpg`, alt: `Sayso screenshot ${i + 1}`, kind: 'phone', w: 1200, h: 2596, bare: true,
 }))
@@ -298,8 +352,9 @@ export const projects: Project[] = [
     role: 'Lead Flutter developer',
     period: '2 years',
     icon: '/work/flydelivery_icon.jpg',
-    cover: phone('/work/flydelivery_1.jpg', 'FlyDelivery customer app home', 600, 1298),
-    shots: [1, 2, 3, 4].map((n) => phone(`/work/flydelivery_${n}.jpg`, `FlyDelivery screen ${n}`, 600, 1298)),
+    cover: flyCustomer[0],
+    shots: [flyCustomer[0], flyCourier[1], flySupplier[0], flyCustomer[1], flyCourier[0], flySupplier[2], flyCustomer[2], flyCourier[2], flySupplier[3], flyCustomer[3]],
+    apps: flyApps,
     stack: ['Flutter', 'Firebase Realtime DB', 'FCM', 'Google Maps SDK', 'Socket.io', 'Dio', 'Hive', 'Codemagic'],
     architecture: 'Clean Architecture · shared core module',
     state: 'BLoC + Riverpod',

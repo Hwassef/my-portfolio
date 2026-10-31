@@ -3,6 +3,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
+import { SiAppstore, SiGoogleplay } from 'react-icons/si'
+import Device from '@/components/Device'
 import Gallery from '@/components/Gallery'
 import Reveal from '@/components/Reveal'
 import StoreLinks from '@/components/StoreLinks'
@@ -94,6 +96,45 @@ export default function ProjectPage({ params }: Props) {
 
         <Gallery shots={project.shots} title={project.title} labels={{ prev: t.project.prev, next: t.project.nextShot, show: t.project.show }} />
       </header>
+
+      {project.apps && (
+        <section className="border-t-2 border-ink py-16 md:py-20">
+          <div className="wrap">
+            <h2 className="display mb-10 text-5xl md:text-6xl"><span className="swoosh">{t.project.apps}</span></h2>
+            <div className="grid gap-8 md:grid-cols-3">
+              {project.apps.map((app, n) => (
+                <Reveal key={app.name} delay={n * 100} className="flex flex-col border-2 border-ink bg-paper p-6">
+                  <div className="mb-6 flex h-[420px] justify-center">
+                    <Device shot={app.shot} sizes="240px" className="h-full w-auto" />
+                  </div>
+                  <p className="eyebrow text-muted">{app.audience}</p>
+                  <h3 className="display mt-1 text-3xl">{app.name}</h3>
+                  <ul className="mt-4 flex-1 space-y-2">
+                    {app.points.map((pt) => (
+                      <li key={pt} className="flex gap-2">
+                        <span className="mt-2 h-2 w-2 shrink-0 bg-yellow ring-1 ring-ink" aria-hidden />
+                        <span>{pt}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="mt-6 flex flex-wrap gap-2">
+                    {app.appStore && (
+                      <a href={app.appStore} target="_blank" rel="noopener noreferrer" className="btn btn-paper" aria-label={`${app.name} — App Store`}>
+                        <SiAppstore className="h-4 w-4" /> App Store
+                      </a>
+                    )}
+                    {app.playStore && (
+                      <a href={app.playStore} target="_blank" rel="noopener noreferrer" className="btn btn-paper" aria-label={`${app.name} — Google Play`}>
+                        <SiGoogleplay className="h-4 w-4" /> Google Play
+                      </a>
+                    )}
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       <section className="on-ink bg-ink py-16 text-paper md:py-20">
         <div className="wrap">

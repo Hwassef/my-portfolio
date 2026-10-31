@@ -1,6 +1,33 @@
-import type { Experience, Project } from './site'
+import { flyApps, type Experience, type Project } from './site'
 
-type ProjectFr = Partial<Pick<Project, 'tagline' | 'description' | 'category' | 'role' | 'client' | 'status' | 'period' | 'stack' | 'architecture' | 'features' | 'alsoOn'>>
+type ProjectFr = Partial<Pick<Project, 'tagline' | 'description' | 'category' | 'role' | 'client' | 'status' | 'period' | 'stack' | 'architecture' | 'features' | 'alsoOn' | 'apps'>>
+
+const flyAppsFr = [
+  {
+    audience: 'Pour les clients',
+    points: [
+      'Commande de repas, de courses et de colis, avec suivi du livreur en direct sur la carte.',
+      'Carte, portefeuille ou paiement à la livraison, et chat intégré avec le livreur.',
+      'Interface arabe en RTL avec roue des récompenses et fidélité en Fly coins.',
+    ],
+  },
+  {
+    audience: 'Pour les livreurs',
+    points: [
+      'Un bouton pour passer en ligne et recevoir les livraisons affectées automatiquement.',
+      'Itinéraire du restaurant au client, avec GPS en arrière-plan.',
+      'Suivi étape par étape, historique des livraisons et gains.',
+    ],
+  },
+  {
+    audience: 'Pour les fournisseurs',
+    points: [
+      'Accepter ou refuser les commandes entrantes et les suivre jusqu’à la préparation.',
+      'Gestion du menu et des produits, avec suppléments et prix.',
+      'Tableau de bord mensuel : chiffre d’affaires, commandes, clients et meilleures ventes.',
+    ],
+  },
+]
 
 export const projectsFr: Record<string, ProjectFr> = {
   wire: {
@@ -80,6 +107,7 @@ export const projectsFr: Record<string, ProjectFr> = {
     period: '2 ans',
     stack: ['Flutter', 'Firebase Realtime DB', 'FCM', 'Google Maps SDK', 'Socket.io', 'Dio', 'Hive', 'Codemagic'],
     architecture: 'Clean Architecture · module core partagé',
+    apps: flyApps.map((a, i) => ({ ...a, ...flyAppsFr[i] })),
     features: [
       { title: 'Trois apps, un seul core', body: 'Apps client, livreur et fournisseur dans un monorepo modulaire partageant environ 70 % du code : modèles, logique métier et utilitaires.' },
       { title: 'Suivi et itinéraires en direct', body: 'Position du livreur en temps réel via Firebase et sockets, géofencing des zones, tarification selon la distance et GPS en arrière-plan économe en batterie.' },
